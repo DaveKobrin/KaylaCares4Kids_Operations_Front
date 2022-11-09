@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+![KaylaCares4Kids](./assets/kayla-cares-4-kids-logo.png)
+# Kayla Cares 4 Kids
+## Operations Front-End
+Kayla Cares 4 Kids, Inc. is a 501(c)(3) non-profit organization. Kayla Cares 4 Kids’ mission is to help sick kids feel better by providing entertainment and educational items to children’s hospitals, Ronald McDonald Houses and related pediatric facilities worldwide.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Project Description
+> Include:<br />
+> General App Idea/Purpose<br />
 
-In the project directory, you can run:
+ This project is the back-end and database connection to support the daily operations of their work. The first stage of this will be targeted toward inventory of donations of various entertainment and educational items. This will eventually grow to manage requests for items from their client hospitals and facilities as well as tracking the financial information that they need for managing the organization.
 
-### `npm start`
+> What technology stack(s) are you using for your frontend / backend?<br />
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+I will be using PostgreSQL for the data store,
+Flask for the api,
+also considering firebase for backend and auth,
+React Native for the front end to allow for mobile device usage for the receipt of donations
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> Models including field names and their datatypes<br />
 
-### `npm test`
+![KaylaCares_ERD](./assets/wireframes/KaylaCares_ERD.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> A list of routes (e.g. `POST /pins/ allows users to post a picture of a pin`)<br />
 
-### `npm run build`
+POST            /user/register  create a new user account and log it in
+POST            /user/login     log an existing user in
+GET             /user/logout    log current user out
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+GET     INDEX   /items/         index of donated items
+GET     SHOW    /items/:id      display info of one donation item
+POST    CREATE  /items/         create a new row in the items table
+DELETE  DESTROY /items/:id      delete row matching id from items table
+PUT     UPDATE  /items/:id      update row with new values from the edit view
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Wireframes
+> Wireframes with basic page layouts<br />
+> Copy and paste or drag and drop your images here.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![login](./assets/wireframes/login.png)
+![inventory](./assets/wireframes/inventory.png)
+![donations](./assets/wireframes/donations.png)
+![shipments](./assets/wireframes/shipments.png)
 
-### `npm run eject`
+## Feasibility Study
+> If you're using an external API or scraping a website, make sure you can get that data. If you're using a new language, framework, or tool, go through it's getting started tutorial. We *will* ask to see your results. If you are planning to use an API, please show an example of a successful fetch below to the API you wish to use in your project.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## User Stories
+> User stories detailing app functionality<br />
+> Add user stories following the _As a [type of user], I want [what the user wants], so that [what it helps accomplish]_ format.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### MVP Goals
+- As a user I want to be able to load the app on my phone
+- As a user I want to be able to create a user account
+- As a user I want to be able to log into the app for my organization
+- As a user I want to be able to add an item into the database
+- As a user I want to be able to update an item in case I entered a typo
+- As a user I want to be able to see what is the current available stock of items
+- As a user I want to be able to delete an item if I need to
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Stretch Goals
+- As a user I want to be able to track the requests from our clients and store them in the database
+- As a user I want to be able to prepare a shipment of items from the inventory and automatically adjust the quatities of items
+- As a user I want to be able to view the value of donations received durring a specified period
+- As a user I want to be able to view the fair market value of items delivered to clients for a specified period
+- As a user I want to be able to view the estimated number of children impacted by our serices
