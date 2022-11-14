@@ -4,6 +4,22 @@ export const menuItems = [
         url: '/',
     },
     {
+        title: 'testing',
+        submenu: [
+            {
+                title: 'public',
+                url: '/test/public'
+            },
+            {
+                title: 'protected',
+                url: '/test/protected'},
+            {
+                title: 'admin',
+                url: '/test/admin'
+            },
+        ]
+    },
+    {
         title: 'USERS',
         submenu: [
             {

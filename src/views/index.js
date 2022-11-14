@@ -6,3 +6,6 @@ export { default as Login } from './Login';
 export { default as Logout } from './Logout';
 export { default as UserProtectedRoute } from './UserProtectedRoute';
 export { default as CallbackView } from './CallbackView';
+export { default as TestAPIRoute } from './TestAPIRoute';
+export { default as TestAPIprotected } from './TestAPIProtected';
+export { default as TestAPIAdmin } from './TestAPIAdmin';
