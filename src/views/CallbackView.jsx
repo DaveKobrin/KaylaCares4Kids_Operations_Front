@@ -11,7 +11,7 @@ const CallbackView = () => {
             </div>
         );
     }
-    return <></>
+    return <><h1>Callback View</h1></>
 }
 
 export default CallbackView;

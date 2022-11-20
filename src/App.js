@@ -10,6 +10,7 @@ export const UserContext = React.createContext();
 
 function App() {
   const BACK_URI = process.env.REACT_APP_SERVER_URL;
+  const LOGOUT_URL = process.env.REACT_APP_AUTH0_LOGOUT_URL;
   const [user, setUser] = useState(null);
 
   const { isLoading } = useAuth0();
@@ -24,7 +25,7 @@ function App() {
 
   return (
     <>
-      <ConstContext.Provider value={ {BACK_URI} }>
+      <ConstContext.Provider value={ {BACK_URI, LOGOUT_URL} }>
         <UserContext.Provider value={ {user, setUser} }>
           <Routes>
             <Route path='/' element={<SharedLayout />} >

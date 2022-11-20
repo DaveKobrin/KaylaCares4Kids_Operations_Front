@@ -9,11 +9,11 @@ import { Auth0ProviderWithConfig } from "./auth0-provider-with-config"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Auth0ProviderWithConfig>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Auth0ProviderWithConfig>
         <App />
-      </BrowserRouter>
-    </Auth0ProviderWithConfig>
+      </Auth0ProviderWithConfig>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

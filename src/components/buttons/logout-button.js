@@ -1,12 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
+import React, { useContext } from "react";
+import { ConstContext } from "../../App";
 
 const LogoutButton = () => {
   const { logout } = useAuth0();
+  const { LOGOUT_URL } = useContext(ConstContext);
 
   const handleLogout = () => {
     logout({
-      returnTo: window.location.origin,
+      returnTo: LOGOUT_URL,
     });
   };
 

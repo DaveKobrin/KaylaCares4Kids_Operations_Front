@@ -8,7 +8,7 @@ const LoginButton = () => {
     await loginWithRedirect({
       prompt: "login",
       appState: {
-        returnTo: "/",
+        returnTo: "/users/login",
       },
     });
   };

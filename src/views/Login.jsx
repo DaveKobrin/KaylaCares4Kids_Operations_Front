@@ -1,28 +1,29 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ConstContext, UserContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useAuth0} from '@auth0/auth0-react'
 
 const Login = () => {
     const { BACK_URI } = useContext(ConstContext);
     const { setUser } = useContext(UserContext);
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    
+    const { user, getAccessTokenSilently } = useAuth0();
+    console.log('in login')
+
     const handleLogin = async () => {
+        const accessToken = await getAccessTokenSilently();
         try {
-            console.log(BACK_URI +'login')
-            const response = await fetch(BACK_URI + `/login`, {
+            console.log(BACK_URI +'/api/v1/users/login')
+            const response = await fetch(BACK_URI + '/api/v1/users/login', {
                 method: 'GET',
                 credentials: 'include',
-                headers: {'Content-Type': 'application/json'},
-                // body: JSON.stringify({email: email, password: password})
-            });
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }});
             if(response.ok){
-                const jsonResponse = await response.json();
-                const {data} = jsonResponse;
-                setUser(data);
+                setUser(user);
                 navigate(`/`);
             }
         } catch (error) {
@@ -31,6 +32,30 @@ const Login = () => {
     }
 
     useEffect(()=>{ handleLogin() },[])
+
+    // useEffect(() => {
+    //     const getApiResponse = async () => {
+    //         const accessToken = await getAccessTokenSilently();
+    //         console.log({BACK_URI});
+    //         try {
+    //             const resp = await fetch(BACK_URI+'/api/test_routes/protected', {
+    //                 method: 'GET',
+    //                 credentials: 'include',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     Authorization: `Bearer ${accessToken}`,
+    //                 }});
+    //             if (resp.ok) {
+    //                 const jsonResp = await resp.json();
+    //                 setResponse(jsonResp);
+    //             }
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     };
+
+    //     getApiResponse();
+    // }, []);
 
     return (
         <section>
