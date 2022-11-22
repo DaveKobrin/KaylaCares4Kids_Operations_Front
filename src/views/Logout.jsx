@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 const Logout = () => {
     
     const { BACK_URI } = useContext(ConstContext);
-    const { setUser } = useContext(UserContext);
+    const { setCurrUser } = useContext(UserContext);
     const navigate = useNavigate();
-    console.log('in logout')
+    // console.log('in logout')
 
     const handleLogout = async () => {
         try {
-            console.log(BACK_URI +'/api/v1/users/logout')
+            // console.log(BACK_URI +'/api/v1/users/logout')
             const response = await fetch(BACK_URI + '/api/v1/users/logout', {
                 method: 'GET',
                 credentials: 'include',
@@ -20,7 +20,7 @@ const Logout = () => {
                 }});
             if(response.ok){
                 const jsonResp = await response.json();
-                setUser(jsonResp.data);
+                setCurrUser({});
                 navigate(`/`);
             }
         } catch (error) {

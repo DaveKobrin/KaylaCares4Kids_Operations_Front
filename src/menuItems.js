@@ -12,15 +12,18 @@ export const menuItems = [
             },
             {
                 title: 'protected',
-                url: '/test/protected'},
+                url: '/test/protected',
+            },
             {
                 title: 'admin',
-                url: '/test/admin'
+                url: '/test/admin',
+                role: 'admin'
             },
         ]
     },
     {
         title: 'USERS',
+        role: 'admin',
         submenu: [
             {
                 title: 'LOGIN',

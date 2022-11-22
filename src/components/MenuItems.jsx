@@ -1,15 +1,30 @@
 import { Dropdown } from ".";
 import { NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { ConstContext, UserContext } from "../App"; 
+// import { useAuth0 } from "@auth0/auth0-react";
+import { useContext } from "react";
 
 const MenuItems = ({items, depthLevel}) => {
-    
+    const { currUser } = useContext(UserContext);
+    const { AUDIENCE } = useContext(ConstContext);
+    // const { getAccessTokenSilently } = useAuth0();
+
     const [dropdown, setDropdown] = useState(false);
+    const [currRoles, setCurrRoles] = useState([]);
     let ref = useRef();
 
     const closeDropdown = () => {
         dropdown && setDropdown(false);
     };
+
+    useEffect(() => {
+        if(currUser != {}) {
+            // console.log(currUser, ' :  currUser');
+            setCurrRoles((AUDIENCE + '/roles') in currUser ? currUser[AUDIENCE + '/roles']:[]);
+        } else 
+            setCurrRoles([]);
+    },[currUser]);
 
     useEffect(()=>{
         const handleEvent = (event) => {
@@ -27,7 +42,9 @@ const MenuItems = ({items, depthLevel}) => {
     return(
         <li className="menu-items" ref={ref} onClick={closeDropdown}>
             {/* {console.log(items.url, ' <------ items.url')} */}
-            {items.submenu && items.url ? (
+            { items.role && !currRoles.includes(items.role) ? (
+                <></>
+            ) : items.submenu && items.url ? (
                 <>
                     <button type="button" aria-haspopup="menu" aria-expanded={dropdown?'true':'false'} onClick={()=>setDropdown((prev)=>!prev)}>
                         <NavLink to={items.url}>{items.title}</NavLink>
