@@ -1,26 +1,25 @@
-// import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { ConstContext } from "../App";
-// import { CodeSnippet } from "../components/code-snippet";
-// import { PageLayout } from "../components/page-layout";
-// import { getAdminResource } from "../services/message.service";
+import { ConstContext } from "../../App";
 
-const TestApiRoute = () => {
+const TestApiAdmin = () => {
     const [response, setResponse] = useState("");
-//   const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
     const {BACK_URI} = useContext(ConstContext);
 
     useEffect(() => {
         const getApiResponse = async () => {
-            //   const accessToken = await getAccessTokenSilently();
-            // const { data, error } = await getAdminResource(accessToken);
+            const accessToken = await getAccessTokenSilently();
             console.log({BACK_URI});
             try {
-                const resp = await fetch(BACK_URI+'/api/test_routes/public', {
+                const resp = await fetch(BACK_URI+'/api/test_routes/admin', {
                     method: 'GET',
                     credentials: 'include',
-                    headers: {'Content-Type': 'application/json'}});
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    }});
                 if (resp.ok) {
                     const jsonResp = await resp.json();
                     setResponse(jsonResp);
@@ -35,7 +34,7 @@ const TestApiRoute = () => {
 
     return (
         <>
-            <h1>Attempting to access api/test_route/public</h1>
+            <h1>Attempting to access api/test_route/admin</h1>
             <br />
             {response ? (<>
                     <p>data = {response.data}</p>
@@ -46,4 +45,4 @@ const TestApiRoute = () => {
     );
 };
 
-export default TestApiRoute;
+export default TestApiAdmin;

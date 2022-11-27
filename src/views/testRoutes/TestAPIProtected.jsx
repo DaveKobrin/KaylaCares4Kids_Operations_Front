@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { ConstContext } from "../App";
+import { ConstContext } from "../../App";
 
 const TestApiProtected = () => {
     const [response, setResponse] = useState("");

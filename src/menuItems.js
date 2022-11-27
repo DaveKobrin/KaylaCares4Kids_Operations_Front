@@ -38,6 +38,20 @@ export const menuItems = [
                 url: '/users/logout'
             }
         ]
-    }
+    },
+    {
+        title: 'Items',
+        role: 'Internal',
+        submenu: [
+            {
+                title: 'All Items',
+                url: '/items',
+            },
+            {
+                title: 'Add Item(s)',
+                url: '/items/new',
+            },
+        ]
+    },
 
 ]

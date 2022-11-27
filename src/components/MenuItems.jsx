@@ -19,7 +19,7 @@ const MenuItems = ({items, depthLevel}) => {
     };
 
     useEffect(() => {
-        if(currUser != {}) {
+        if(currUser !== {}) {
             // console.log(currUser, ' :  currUser');
             setCurrRoles((AUDIENCE + '/roles') in currUser ? currUser[AUDIENCE + '/roles']:[]);
         } else 

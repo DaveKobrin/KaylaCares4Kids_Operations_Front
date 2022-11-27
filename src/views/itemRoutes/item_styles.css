@@ -1,0 +1,33 @@
+.show-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* min-width: 50%; */
+
+}
+
+.show-row {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-around; */
+    justify-content: space-between;
+    flex-grow: 1;
+    min-width: 50%;
+
+    /* padding: 3px; */
+}
+
+.show-label {
+    color: #444;
+    /* flex-grow: 2; */
+    margin: .2rem;
+    /* align-self: flex-start; */
+}
+
+.show-data {
+    color: black;
+    /* flex-grow: 1; */
+    margin: .2rem;
+    /* align-self: flex-end; */
+}
+

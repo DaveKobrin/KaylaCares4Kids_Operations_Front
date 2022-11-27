@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { NotFound, Login, Logout, Register } from ".";
+import { NotFound, Login, Logout } from "..";
 
 const UserRoutes = () => {
 
@@ -7,9 +7,7 @@ const UserRoutes = () => {
         <Routes>
             <Route path='login' element={<Login />} />
             <Route path='logout' element={<Logout />} />
-            {/* <Route path='register' element={<Register />} /> */}
             <Route path='*' element={<NotFound />} />
-
         </Routes>
     )
 };

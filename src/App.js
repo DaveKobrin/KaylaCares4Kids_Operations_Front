@@ -1,13 +1,14 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { useState } from 'react';
-import { SharedLayout, Landing, UserRoutes, NotFound, CallbackView, TestAPIRoute, TestAPIprotected, TestAPIAdmin } from './views';
+import { SharedLayout, Landing, UserRoutes, NotFound, CallbackView, TestAPIRoute, TestAPIprotected, TestAPIAdmin, ItemRoutes } from './views';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Auth0LoginRequired, PageLoader } from './components';
 
 
 export const ConstContext = React.createContext();
 export const UserContext = React.createContext();
+export const DataContext = React.createContext();
 
 function App() {
   const BACK_URI = process.env.REACT_APP_SERVER_URL;
@@ -34,6 +35,7 @@ function App() {
             <Route path='/' element={<SharedLayout />} >
               <Route index element={<Landing />} />
               <Route path='users/*' element={<UserRoutes />} />
+              <Route path='items/*' element={<ItemRoutes />} />
               <Route path='callback' element={<CallbackView />} />
               <Route path='test/public' element={<TestAPIRoute />} />
               <Route path='test/protected' element={<Auth0LoginRequired component={TestAPIprotected} />} />
