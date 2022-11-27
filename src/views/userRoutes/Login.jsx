@@ -14,10 +14,11 @@ const Login = () => {
     const handleLogin = async () => {
         console.log('user: ', user);
         const accessToken = await getAccessTokenSilently();
+        console.log('accessToken: ', accessToken)
         
         const doFetch = async () => {
             try {
-                // console.log(BACK_URI +'/api/v1/users/login')
+                console.log(BACK_URI +'/api/v1/users/login')
                 const response = await fetch(BACK_URI + '/api/v1/users/login', {
                     method: 'GET',
                     credentials: 'include',
@@ -34,12 +35,12 @@ const Login = () => {
                 console.error(error);
             }
         }
-        // doFetch();
+        doFetch();
         // if (!accessToken)
-            setTimeout(() => {
-                console.log('accessToken: ', accessToken)
-                doFetch();
-            }, 2250);
+            // setTimeout(() => {
+            //     console.log('accessToken: ', accessToken)
+            //     doFetch();
+            // }, 1250);
     }
 
     useEffect(()=>{ handleLogin() },[])
