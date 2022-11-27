@@ -12,24 +12,33 @@ const Login = () => {
     // console.log('in login')
 
     const handleLogin = async () => {
+        // console.log(user);
         const accessToken = await getAccessTokenSilently();
-        try {
-            // console.log(BACK_URI +'/api/v1/users/login')
-            const response = await fetch(BACK_URI + '/api/v1/users/login', {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${accessToken}`,
-                }});
-            if(response.ok){
-                setCurrUser(user);
-                console.log(user);
-                navigate(`/`);
+        
+        const doFetch = async () => {
+            try {
+                // console.log(BACK_URI +'/api/v1/users/login')
+                const response = await fetch(BACK_URI + '/api/v1/users/login', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    }});
+                if(response.ok){
+                    setCurrUser(user);
+                    console.log(user);
+                    navigate(`/`);
+                }
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
         }
+        // doFetch();
+        // if (!accessToken)
+            setTimeout(() => {
+                doFetch();
+            }, 1250);
     }
 
     useEffect(()=>{ handleLogin() },[])
