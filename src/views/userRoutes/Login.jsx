@@ -12,7 +12,7 @@ const Login = () => {
     // console.log('in login')
 
     const handleLogin = async () => {
-        // console.log(user);
+        console.log('user: ', user);
         const accessToken = await getAccessTokenSilently();
         
         const doFetch = async () => {
@@ -37,6 +37,7 @@ const Login = () => {
         // doFetch();
         // if (!accessToken)
             setTimeout(() => {
+                console.log('accessToken: ', accessToken)
                 doFetch();
             }, 2250);
     }
