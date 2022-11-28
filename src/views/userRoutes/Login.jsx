@@ -12,10 +12,10 @@ const Login = () => {
     // console.log('in login')
 
     const handleLogin = async () => {
-        console.log('user: ', user);
+        // console.log('user: ', user);
         const accessToken = await getAccessTokenSilently();
-        console.log('accessToken: ', accessToken)
-        
+        // console.log('accessToken: ', accessToken)
+
         const doFetch = async () => {
             try {
                 console.log(BACK_URI +'/api/v1/users/login')
@@ -28,7 +28,7 @@ const Login = () => {
                     }});
                 if(response.ok){
                     setCurrUser(user);
-                    console.log(user);
+                    // console.log(user);
                     navigate(`/`);
                 }
             } catch (error) {

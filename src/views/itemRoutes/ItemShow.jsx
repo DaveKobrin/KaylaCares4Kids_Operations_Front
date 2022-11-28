@@ -16,7 +16,7 @@ const ItemShow = () => {
     useEffect(()=>{
         const loadone = async () => {
             const itm = await getOneItem(parseInt(id));
-            console.log('itm: ', itm)
+            // console.log('itm: ', itm)
             setItem({...itm});
         }
         loadone();
@@ -41,7 +41,6 @@ const ItemShow = () => {
             console.error(error);
         }
     }
-//destination_id.name
 
     return(
         <>
