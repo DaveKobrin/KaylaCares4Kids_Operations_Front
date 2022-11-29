@@ -11,6 +11,14 @@ const ItemRoutes = () => {
     const { BACK_URI } = useContext(ConstContext); 
     const [allItems, setAllItems] = useState([]);
 
+    const parseDate = (date) => {
+        if(!date) return false;
+        let newDate = (new Date(Date.parse(date))).toISOString();
+        newDate = newDate.split('T');
+        newDate = newDate[0];
+        return newDate;
+    }
+
     const getOneItem = async (id) => {
         const accessToken = await getAccessTokenSilently();
         try {
@@ -24,6 +32,8 @@ const ItemRoutes = () => {
             if (response.ok) {
                 const jsonResponse = await response.json();
                 const {data} = jsonResponse;
+                if(data.date_received) data.date_received = parseDate(data.date_received);
+                if(data.date_shipped) data.date_shipped = parseDate(data.date_shipped);
                 return data;
             } else
                 return false;
@@ -52,10 +62,31 @@ const ItemRoutes = () => {
         }
     }
 
+    const getLookupData = async () => {
+        const accessToken = await getAccessTokenSilently();
+        try {
+            const response = await fetch(BACK_URI + '/api/v1/lookup', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }});
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                const {data} = jsonResponse;
+                return data;
+            } else
+                return false;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => { getAllItems() }, [])
 
     return (
-        <DataContext.Provider value={{allItems, setAllItems, getAllItems, getOneItem}}>
+        <DataContext.Provider value={{allItems, setAllItems, getAllItems, getOneItem, getLookupData}}>
             <Routes>
                 <Route path='/' element={<ItemIndex />} />
                 <Route path='new' element={<ItemNew />} />
