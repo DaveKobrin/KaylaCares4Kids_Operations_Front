@@ -34,7 +34,7 @@ const LookupNew = () => {
             });
             if(response.ok){
                 getAllLookupItems();
-                navigate('/items')
+                navigate('/lookup')
             }
         } catch (error) {
             console.error(error);
