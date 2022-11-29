@@ -53,5 +53,19 @@ export const menuItems = [
             },
         ]
     },
+    {
+        title: 'Lookup',
+        role: 'admin',
+        submenu: [
+            {
+                title: 'All Items',
+                url: '/lookup',
+            },
+            {
+                title: 'Add Item',
+                url: '/lookup/new',
+            },
+        ]
+    },
 
 ]

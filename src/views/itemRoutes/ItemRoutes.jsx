@@ -64,8 +64,9 @@ const ItemRoutes = () => {
 
     const getLookupData = async () => {
         const accessToken = await getAccessTokenSilently();
+        // console.log('accessToken: ', accessToken);
         try {
-            const response = await fetch(BACK_URI + '/api/v1/lookup', {
+            const response = await fetch(BACK_URI+'/api/v1/lookup/', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {

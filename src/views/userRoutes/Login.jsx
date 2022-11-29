@@ -18,7 +18,7 @@ const Login = () => {
 
         const doFetch = async () => {
             try {
-                console.log(BACK_URI +'/api/v1/users/login')
+                // console.log(BACK_URI +'/api/v1/users/login')
                 const response = await fetch(BACK_URI + '/api/v1/users/login', {
                     method: 'GET',
                     credentials: 'include',

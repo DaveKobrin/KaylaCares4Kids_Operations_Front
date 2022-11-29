@@ -1,8 +1,7 @@
 const Landing = () => {
     return (
         <section>
-            
-            <h1>Welcome to Kayla Cares 4 Kides Operations</h1>
+            <h1>Welcome to Kayla Cares 4 Kids Operations</h1>
         </section>
     )
 }
