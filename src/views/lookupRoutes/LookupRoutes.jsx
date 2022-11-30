@@ -14,7 +14,7 @@ const LookupRoutes = () => {
 
     const getOneLookupItem = async (id) => {
         const accessToken = await getAccessTokenSilently();
-        console.log(accessToken)
+        // console.log(accessToken)
         try {
             const response = await fetch(BACK_URI+'/api/v1/lookup/' + id, {
                 method: 'GET',
