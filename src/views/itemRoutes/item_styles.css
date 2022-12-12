@@ -31,3 +31,122 @@
     /* align-self: flex-end; */
 }
 
+.input-group-floating {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.input-group-floating > .form-control,
+.input-group-floating > .form-control-plaintext,
+.input-group-floating > .form-select {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+}
+
+.input-group-floating > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0.75rem;
+    overflow: hidden;
+    text-align: start;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+    border: 1px solid transparent;
+    transform-origin: 0 0;
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .input-group-floating > label {
+        transition: none;
+    }
+}
+
+.input-group-floating > .form-control,
+.input-group-floating > .form-control-plaintext {
+  padding: 1rem 0.75rem;
+}
+.input-group-floating > .form-control::-moz-placeholder, .input-group-floating > .form-control-plaintext::-moz-placeholder {
+  color: transparent;
+}
+.input-group-floating > .form-control::placeholder,
+.input-group-floating > .form-control-plaintext::placeholder {
+  color: transparent;
+}
+.input-group-floating > .form-control:not(:-moz-placeholder-shown), .input-group-floating > .form-control-plaintext:not(:-moz-placeholder-shown) {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+.input-group-floating > .form-control:focus, .input-group-floating > .form-control:not(:placeholder-shown),
+.input-group-floating > .form-control-plaintext:focus,
+.input-group-floating > .form-control-plaintext:not(:placeholder-shown) {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+.input-group-floating > .form-control:-webkit-autofill,
+.input-group-floating > .form-control-plaintext:-webkit-autofill {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+.input-group-floating > .form-select {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+.input-group-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+.input-group-floating > .form-control:focus ~ label,
+.input-group-floating > .form-control:not(:placeholder-shown) ~ label,
+.input-group-floating > .form-control-plaintext ~ label,
+.input-group-floating > .form-select ~ label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+.input-group-floating > .form-control:-webkit-autofill ~ label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+.input-group-floating > .form-control-plaintext ~ label {
+  border-width: 1px 0;
+}
+
+
+.input-group-floating:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.input-group-floating),
+.input-group-floating:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3),
+.input-group-floating:not(.has-validation) > .input-group-floating:not(:last-child) > .form-control,
+.input-group-floating:not(.has-validation) > .input-group-floating:not(:last-child) > .form-select {
+border-top-right-radius: 0;
+border-bottom-right-radius: 0;
+}
+
+.input-group-floating.has-validation > :nth-last-child(n+3):not(.dropdown-toggle):not(.dropdown-menu):not(.input-group-floating),
+.input-group-floating.has-validation > .dropdown-toggle:nth-last-child(n+4),
+.input-group-floating.has-validation > .input-group-floating:nth-last-child(n+3) > .form-control,
+.input-group-floating.has-validation > .input-group-floating:nth-last-child(n+3) > .form-select {
+border-top-right-radius: 0;
+border-bottom-right-radius: 0;
+}
+
+.input-group-floating > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+margin-left: -1px;
+border-top-left-radius: 0;
+border-bottom-left-radius: 0;
+}
+
+.input-group-floating > .input-group-floating:not(:first-child) > .form-control,
+.input-group-floating > .input-group-floating:not(:first-child) > .form-select {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

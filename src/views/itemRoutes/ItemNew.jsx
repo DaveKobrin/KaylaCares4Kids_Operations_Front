@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ConstContext, DataContext } from "../../App";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Container, Form, FormGroup, Label, Input, Row, Col, Button, Table } from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, InputGroup, Row, Col, Button, Table } from 'reactstrap';
 
 const ItemNew = () => {
     const { BACK_URI } = useContext(ConstContext);
@@ -11,6 +11,7 @@ const ItemNew = () => {
     const navigate = useNavigate();
     const [ newItem, setNewItem ] = useState({});
     const [ lookupData, setLookupData ] = useState([]);
+    const [ upcData, setUpcData ] = useState([]);
 
     useEffect(()=>{
         const getData = async () => {
@@ -56,6 +57,31 @@ const ItemNew = () => {
         }
     }
     
+    const handleLookup = async () => {
+        if(newItem['upc_code']) {
+            const accessToken = await getAccessTokenSilently();
+            const payload = newItem['upc_code'];
+            console.log({payload});
+            try {
+                const response = await fetch(BACK_URI + '/api/v1/inventory/upc/' + payload, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                if(response.ok) {
+                    const jsonResponse = await response.json();
+                    const {data} = jsonResponse;
+                    console.log({data});
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
     return(
         <Container>
             <Row>
@@ -64,10 +90,11 @@ const ItemNew = () => {
                         <Form onSubmit={handleSubmit}>
                             <Row>
                                 <Col sm={3}>
-                                    <FormGroup floating>
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
                                         <Input type='text' name="upc_code" id="upc_code" onChange={(e)=>{handleChange(e)}} placeholder="UPC" />
                                         <Label htmlFor="upc_code">UPC</Label>
-                                    </FormGroup>
+                                        <Button color="primary" onClick={handleLookup}>+</Button>
+                                    </InputGroup>
                                 </Col>
                                 <Col sm={6}>
                                     <FormGroup floating>
@@ -157,7 +184,7 @@ const ItemNew = () => {
                                     </FormGroup>
                                 </Col>
                             </Row>
-                            <Button tag="input" type="submit" value="Add Item(s)" color="primary" />
+                            <Button tag="input" type="submit" value="Add Item(s)" color="primary" size="lg" />
 
                         </Form>
                     </Container>
