@@ -74,7 +74,7 @@ const ItemNew = () => {
                 if(response.ok) {
                     const jsonResponse = await response.json();
                     const {data} = jsonResponse;
-                    console.log({data});
+                    console.log({jsonResponse});
                 }
             } catch (error) {
                 console.error(error);
