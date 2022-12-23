@@ -23,7 +23,7 @@ const ItemNew = () => {
     }
 
     const { BACK_URI } = useContext(ConstContext);
-    const { getAllItems, getLookupData } = useContext(DataContext);
+    const { getAllItems, getLookupData, getFacilityData, getDestinationData } = useContext(DataContext);
     const { getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
     const [ newItem, setNewItem ] = useState({});
@@ -34,6 +34,10 @@ const ItemNew = () => {
         const getData = async () => {
             const data = await getLookupData();
             if (data) setLookupData(data);
+            const facData = await getFacilityData();
+            console.log({facData});
+            const destData = await getDestinationData();
+            console.log({destData});
         };
         getData();
     },[]);

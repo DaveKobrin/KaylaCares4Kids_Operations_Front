@@ -84,10 +84,52 @@ const ItemRoutes = () => {
         }
     }
 
+    const getFacilityData = async () => {
+        const accessToken = await getAccessTokenSilently();
+        try {
+            const response = await fetch(BACK_URI+'/api/v1/facility/', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }});
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                const {data} = jsonResponse;
+                return data;
+            } else
+                return false;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const getDestinationData = async () => {
+        const accessToken = await getAccessTokenSilently();
+        try {
+            const response = await fetch(BACK_URI+'/api/v1/destination/', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }});
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                const {data} = jsonResponse;
+                return data;
+            } else
+                return false;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => { getAllItems() }, [])
 
     return (
-        <DataContext.Provider value={{allItems, setAllItems, getAllItems, getOneItem, getLookupData}}>
+        <DataContext.Provider value={{allItems, setAllItems, getAllItems, getOneItem, getLookupData, getFacilityData, getDestinationData}}>
             <Routes>
                 <Route path='/' element={<ItemIndex />} />
                 <Route path='new' element={<ItemNew />} />
