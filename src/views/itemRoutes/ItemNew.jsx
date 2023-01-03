@@ -2,42 +2,42 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ConstContext, DataContext } from "../../App";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Container, Form, FormGroup, Label, Input, InputGroup, Row, Col, Button, Table } from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, InputGroup, Row, Col, Button, Table, DropdownItem } from 'reactstrap';
+import { FormDropdown } from '../../components';
 
 const ItemNew = () => {
     const placeholderData = {
-        upc_code: 'UPC',
-        title_desc: 'Title / Description',
-        format: 'Format',
-        facility_id: 'Facility Id',
-        category: 'Category',
-        condition: 'Condition',
-        artist: 'Artist / Author',
-        genre: 'Genre',
-        age_range: 'Age Range',
-        rating: 'Rating',
-        fair_market_value: 'Fair Market Value',
-        kids_served: 'Kids Served',
-        location: 'Location',
+        upc_code: '',
+        title_desc: '',
+        format: '',
+        facility_id: '',
+        category: '',
+        condition: '',
+        artist: '',
+        genre: '',
+        age_range: '',
+        rating: '',
+        fair_market_value: '',
+        kids_served: '',
+        location: '',
         quantity: 1,
     }
 
     const { BACK_URI } = useContext(ConstContext);
-    const { getAllItems, getLookupData, getFacilityData, getDestinationData } = useContext(DataContext);
+    const { dropdownData, getAllItems, getLookupData, getFacilityData } = useContext(DataContext);
     const { getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
-    const [ newItem, setNewItem ] = useState({});
+    const [ newItem, setNewItem ] = useState({placeholderData});
     const [ lookupData, setLookupData ] = useState([]);
-    const [ upcData, setUpcData ] = useState({placeholderData});
+    const [ facilityData, setFacilityData ] = useState([]);
+
 
     useEffect(()=>{
         const getData = async () => {
             const data = await getLookupData();
             if (data) setLookupData(data);
             const facData = await getFacilityData();
-            console.log({facData});
-            const destData = await getDestinationData();
-            console.log({destData});
+            if (facData) setFacilityData(facData);
         };
         getData();
     },[]);
@@ -47,6 +47,14 @@ const ItemNew = () => {
         let tmpItem = {...newItem};
         tmpItem[e.target.name] = e.target.value;
         setNewItem(tmpItem);
+        // console.log({tmpItem})
+    }
+
+    const handleComboClick = (target, value) => {
+        let tmpItem = {...newItem};
+        tmpItem[target] = value;
+        setNewItem(tmpItem);
+        // console.log({tmpItem})
     }
 
     const handleSubmit = async (e) => {
@@ -54,11 +62,14 @@ const ItemNew = () => {
         e.preventDefault();
         let tmpItem = {...newItem};
         const payload = [];
+        // console.log({tmpItem})
+        tmpItem.facility_id = parseInt(tmpItem.facility_id) || 1;
         const quant = parseInt(tmpItem.quantity) || 1;
         delete tmpItem.quantity;
         for (let index = 0; index < quant; index++) {
             payload.push(tmpItem);
         }
+        // console.log({payload})
         try {
             const response = await fetch(BACK_URI + '/api/v1/inventory/', {
                 method: 'POST',
@@ -81,7 +92,7 @@ const ItemNew = () => {
     const handleLookup = async () => {
         if(newItem['upc_code']) {
             const applyData = (data) => {
-                const tmpData = {...upcData};
+                const tmpData = {...newItem};
                 tmpData.upc_code = data?.upc ? data.upc : tmpData.upc_code;
                 tmpData.title_desc = data?.title ? data.title : tmpData.title_desc;
                 tmpData.category = data?.category ? data.category : tmpData.category;
@@ -102,7 +113,7 @@ const ItemNew = () => {
                     const fmvString = `retail new: ${minNew} used: ${minUsed}`;
                     tmpData.fair_market_value = fmvString;
                 }
-                setUpcData(tmpData);
+                setNewItem(tmpData);
             }
             const accessToken = await getAccessTokenSilently();
             const payload = newItem['upc_code'];    
@@ -135,42 +146,56 @@ const ItemNew = () => {
                     <Container>
                         <Form onSubmit={handleSubmit}>
                             <Row>
-                                <Col sm={3}>
+                                <Col md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
-                                        <Input type='text' name="upc_code" id="upc_code" onChange={(e)=>{handleChange(e)}} value={upcData?.upc_code} />
+                                        <Input type='text' name="upc_code" id="upc_code" onChange={(e)=>{handleChange(e)}} value={newItem?.upc_code} />
                                         <Label htmlFor="upc_code">UPC</Label>
                                         <Button color="primary" onClick={handleLookup}>+</Button>
                                     </InputGroup>
                                 </Col>
-                                <Col sm={6}>
+                                <Col md={6}>
                                     <FormGroup floating>
-                                        <Input type='text' name="title_desc" id="title_desc" onChange={(e)=>{handleChange(e)}} value={upcData?.title_desc} />
+                                        <Input type='text' name="title_desc" id="title_desc" onChange={(e)=>{handleChange(e)}} value={newItem?.title_desc} />
                                         <Label htmlFor="title_desc">Title / Description</Label>
                                     </FormGroup>
                                 </Col>
-                                <Col sm={3}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="format" id="format" onChange={(e)=>{handleChange(e)}} value={upcData?.format} />
+                                <Col md={3}>
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="format" id="format" onChange={(e)=>{handleChange(e)}} value={newItem?.format} />
                                         <Label htmlFor="format">Format</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.format.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('format', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col sm={3}>
+                                <Col md={3}>
                                     <FormGroup floating>
-                                        <Input type='text' name="facility_id" id="facility_id" onChange={(e)=>{handleChange(e)}} value={upcData?.facility_id} />
+                                        <Input type='select' name="facility_id" id="facility_id" onChange={(e)=>{handleChange(e)}} value={newItem?.facility_id}>
+                                            {facilityData?.map((facility)=>{
+                                                return <option key={facility.id} value={facility.id}>{facility.name}</option>
+                                            })}
+                                        </Input>
                                         <Label htmlFor="facility_id">Facility</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col md={6}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="category" id="category" onChange={(e)=>{handleChange(e)}} value={upcData?.category} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="category" id="category" onChange={(e)=>{handleChange(e)}} value={newItem?.category} />
                                         <Label htmlFor="category">Category</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.category.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('category', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup floating>
-                                        <Input type='select' name="condition" id="condition" onChange={(e)=>{handleChange(e)}} value={upcData?.condition}>
+                                        <Input type='select' name="condition" id="condition" onChange={(e)=>{handleChange(e)}} value={newItem?.condition}>
                                             <option>Gently Used</option>
                                             <option>New</option>
                                         </Input>
@@ -179,53 +204,73 @@ const ItemNew = () => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col sm={4}>
+                                <Col md={4}>
                                     <FormGroup floating>
-                                        <Input type='text' name="artist" id="artist" onChange={(e)=>{handleChange(e)}} value={upcData?.artist} />
+                                        <Input type='text' name="artist" id="artist" onChange={(e)=>{handleChange(e)}} value={newItem?.artist} />
                                         <Label htmlFor="artist">Artist / Author</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="genre" id="genre" onChange={(e)=>{handleChange(e)}} value={upcData?.genre} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="genre" id="genre" onChange={(e)=>{handleChange(e)}} value={newItem?.genre} />
                                         <Label htmlFor="genre">Genre</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.genre.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('genre', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                                 <Col md={3}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="age_range" id="age_range" onChange={(e)=>{handleChange(e)}} value={upcData?.age_range} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="age_range" id="age_range" onChange={(e)=>{handleChange(e)}} value={newItem?.age_range} />
                                         <Label htmlFor="age_range">Age Range</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.age_range.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('age_range', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                                 <Col md={2}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="rating" id="rating" onChange={(e)=>{handleChange(e)}} value={upcData?.rating} />
+                                <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="rating" id="rating" onChange={(e)=>{handleChange(e)}} value={newItem?.rating} />
                                         <Label htmlFor="rating">Rating</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.rating.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('rating', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col sm={3}>
+                                <Col md={3}>
                                     <FormGroup floating>
-                                        <Input type='text' name="fair_market_value" id="fair_market_value" onChange={(e)=>{handleChange(e)}} value={upcData?.fair_market_value} />
+                                        <Input type='text' name="fair_market_value" id="fair_market_value" onChange={(e)=>{handleChange(e)}} value={newItem?.fair_market_value} />
                                         <Label htmlFor="fair_market_value">Fair Market Value</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup floating>    
-                                        <Input type='text' name="kids_served" id="kids_served" onChange={(e)=>{handleChange(e)}} value={upcData?.kids_served} />
+                                        <Input type='text' name="kids_served" id="kids_served" onChange={(e)=>{handleChange(e)}} value={newItem?.kids_served} />
                                         <Label htmlFor="kids_served">Kids Served</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="location" id="location" onChange={(e)=>{handleChange(e)}} value={upcData?.location} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="location" id="location" onChange={(e)=>{handleChange(e)}} value={newItem?.location} />
                                         <Label htmlFor="location">Location</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.location.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('location', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup floating>
-                                        <Input type='text' name="quantity" id="quantity" defaultValue='1' onChange={(e)=>{handleChange(e)}} value={upcData?.quantity} />
+                                        <Input type='text' name="quantity" id="quantity" defaultValue='1' onChange={(e)=>{handleChange(e)}} value={newItem?.quantity} />
                                         <Label htmlFor="quantity">Quantity</Label>
                                     </FormGroup>
                                 </Col>

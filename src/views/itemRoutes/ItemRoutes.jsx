@@ -7,9 +7,17 @@ import './item_styles.css';
 
 const ItemRoutes = () => {
     const { getAccessTokenSilently } = useAuth0();
-    // const { currUser } = useContext(UserContext);
+    const defaultDropdownData = {
+        format: [],
+        category: [],
+        genre: [],
+        age_range: [],
+        rating: [],
+        location: []
+    };
     const { BACK_URI } = useContext(ConstContext); 
-    const [allItems, setAllItems] = useState([]);
+    const [ allItems, setAllItems ] = useState([]);
+    const [ dropdownData, setDropdownData ] = useState(defaultDropdownData);
 
     const parseDate = (date) => {
         if(!date) return false;
@@ -17,6 +25,33 @@ const ItemRoutes = () => {
         newDate = newDate.split('T');
         newDate = newDate[0];
         return newDate;
+    }
+
+    const parseDropdownData = (data) => {
+        const formats = new Set();
+        const categories = new Set();
+        const genres = new Set();
+        const age_ranges = new Set();
+        const ratings = new Set();
+        const locations = new Set();
+
+        for (const item of data) {
+            formats.add(item.format);
+            categories.add(item.category);
+            genres.add(item.genre);
+            age_ranges.add(item.age_range);
+            ratings.add(item.rating);
+            locations.add(item.location);
+        }
+
+        setDropdownData({
+            format: [...formats],
+            category: [...categories],
+            genre: [...genres],
+            age_range: [...age_ranges],
+            rating: [...ratings],
+            location: [...locations]
+        });
     }
 
     const getOneItem = async (id) => {
@@ -56,6 +91,7 @@ const ItemRoutes = () => {
                 const jsonResponse = await response.json();
                 const {data} = jsonResponse;
                 setAllItems([...data]);
+                parseDropdownData([...data]);
             }
         } catch (error) {
             console.error(error);
@@ -129,7 +165,7 @@ const ItemRoutes = () => {
     useEffect(() => { getAllItems() }, [])
 
     return (
-        <DataContext.Provider value={{allItems, setAllItems, getAllItems, getOneItem, getLookupData, getFacilityData, getDestinationData}}>
+        <DataContext.Provider value={{allItems, dropdownData, setAllItems, getAllItems, getOneItem, getLookupData, getFacilityData, getDestinationData}}>
             <Routes>
                 <Route path='/' element={<ItemIndex />} />
                 <Route path='new' element={<ItemNew />} />
