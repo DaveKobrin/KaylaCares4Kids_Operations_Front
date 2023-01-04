@@ -2,23 +2,31 @@ import { useState, useContext, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ConstContext, DataContext } from "../../App";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Form, FormGroup, Label, Input, Row, Col, Button, Table } from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, Row, Col, Button, Table, InputGroup, DropdownItem } from 'reactstrap';
+import { FormDropdown } from "../../components";
 
 
 const ItemEdit = () => {
     const { id } = useParams();
     const { BACK_URI } = useContext(ConstContext);
-    const { getOneItem, getAllItems, getLookupData } = useContext(DataContext);
+    const { dropdownData, getOneItem, getAllItems, getLookupData, getFacilityData, getDestinationData } = useContext(DataContext);
     const { getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
     const [ lookupData, setLookupData ] = useState([]);
+    const [ facilityData, setFacilityData ] = useState([]);
+    const [ destinationData, setDestinationData ] = useState([]);
     const [ newItem, setNewItem ] = useState({});
 
     useEffect(()=>{
         const loadone = async () => {
             const itm = await getOneItem(parseInt(id));
             if(itm) setNewItem({...itm});
-            // console.log(itm)
+            const data = await getLookupData();
+            if (data) setLookupData(data);
+            const facData = await getFacilityData();
+            if (facData) setFacilityData(facData);
+            const destData = await getDestinationData();
+            if (destData) setDestinationData(destData);
         }
         loadone();
     },[]);
@@ -36,6 +44,13 @@ const ItemEdit = () => {
         let tmpItem = {...newItem};
         tmpItem[e.target.name] = e.target.value;
         setNewItem(tmpItem);
+    }
+
+    const handleComboClick = (target, value) => {
+        let tmpItem = {...newItem};
+        tmpItem[target] = value;
+        setNewItem(tmpItem);
+        // console.log({tmpItem})
     }
 
     const handleSubmit = async (e) => {
@@ -74,39 +89,53 @@ const ItemEdit = () => {
                             <Row>
                                 <Col xs={12} md={3}>
                                     <FormGroup floating>
-                                        <Input type='text' name="upc_code" id="upc_code" onChange={(e)=>{handleChange(e)}} placeholder="UPC" defaultValue={newItem?.upc_code} />
+                                        <Input type='text' name="upc_code" id="upc_code" onChange={(e)=>{handleChange(e)}} placeholder="UPC" value={newItem?.upc_code} />
                                         <Label htmlFor="upc_code">UPC</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={6}>
                                     <FormGroup floating>
-                                        <Input type='text' name="title_desc" id="title_desc" onChange={(e)=>{handleChange(e)}} placeholder="Title / Description" defaultValue={newItem?.title_desc} />
+                                        <Input type='text' name="title_desc" id="title_desc" onChange={(e)=>{handleChange(e)}} placeholder="Title / Description" value={newItem?.title_desc} />
                                         <Label htmlFor="title_desc">Title / Description</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={3}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="format" id="format" onChange={(e)=>{handleChange(e)}} placeholder="Format" defaultValue={newItem?.format} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="format" id="format" onChange={(e)=>{handleChange(e)}} placeholder="Format" value={newItem?.format} />
                                         <Label htmlFor="format">Format</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.format.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('format', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col xs={12} md={3}>
                                     <FormGroup floating>
-                                        <Input type='text' name="facility_id" id="facility_id" onChange={(e)=>{handleChange(e)}} placeholder="Facility Id" defaultValue={newItem?.facility_id?.id} />
+                                        <Input type='select' name="facility_id" id="facility_id" onChange={(e)=>{handleChange(e)}} placeholder="Facility" value={newItem?.facility_id}>
+                                            {facilityData?.map((facility)=>{
+                                                return <option key={facility.id} value={facility.id}>{facility.name}</option>
+                                            })}
+                                        </Input>
                                         <Label htmlFor="facility_id">Facility</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={6}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="category" id="category" onChange={(e)=>{handleChange(e)}} placeholder="Category" defaultValue={newItem?.category} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="category" id="category" onChange={(e)=>{handleChange(e)}} placeholder="Category" value={newItem?.category} />
                                         <Label htmlFor="category">Category</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.category.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('category', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                                 <Col xs={12} md={3}>
                                     <FormGroup floating>
-                                        <Input type='select' name="condition" id="condition" onChange={(e)=>{handleChange(e)}} placeholder="Condition" defaultValue={newItem?.condition} >
+                                        <Input type='select' name="condition" id="condition" onChange={(e)=>{handleChange(e)}} placeholder="Condition" value={newItem?.condition}>
                                             <option>Gently Used</option>
                                             <option>New</option>
                                         </Input>
@@ -117,47 +146,67 @@ const ItemEdit = () => {
                             <Row>
                                 <Col xs={12} md={4}>
                                     <FormGroup floating>
-                                        <Input type='text' name="artist" id="artist" onChange={(e)=>{handleChange(e)}} placeholder="Artist / Author" defaultValue={newItem?.artist} />
+                                        <Input type='text' name="artist" id="artist" onChange={(e)=>{handleChange(e)}} placeholder="Artist / Author" value={newItem?.artist} />
                                         <Label htmlFor="artist">Artist / Author</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={3}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="genre" id="genre" onChange={(e)=>{handleChange(e)}} placeholder="Genre" defaultValue={newItem?.genre} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="genre" id="genre" onChange={(e)=>{handleChange(e)}} placeholder="Genre" value={newItem?.genre} />
                                         <Label htmlFor="genre">Genre</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.genre.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('genre', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                                 <Col xs={12} md={3}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="age_range" id="age_range" onChange={(e)=>{handleChange(e)}} placeholder="Age Range" defaultValue={newItem?.age_range} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="age_range" id="age_range" onChange={(e)=>{handleChange(e)}} placeholder="Age Range" value={newItem?.age_range} />
                                         <Label htmlFor="age_range">Age Range</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.age_range.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('age_range', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                                 <Col xs={12} md={2}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="rating" id="rating" onChange={(e)=>{handleChange(e)}} placeholder="Rating" defaultValue={newItem?.rating} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="rating" id="rating" onChange={(e)=>{handleChange(e)}} placeholder="Rating" value={newItem?.rating} />
                                         <Label htmlFor="rating">Rating</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.rating.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('rating', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col xs={12} md={4}>
                                     <FormGroup floating>
-                                        <Input type='text' name="fair_market_value" id="fair_market_value" onChange={(e)=>{handleChange(e)}} placeholder="Fair Market Value" defaultValue={newItem?.fair_market_value} />
+                                        <Input type='text' name="fair_market_value" id="fair_market_value" onChange={(e)=>{handleChange(e)}} placeholder="Fair Market Value" value={newItem?.fair_market_value} />
                                         <Label htmlFor="fair_market_value">Fair Market Value</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={4}>
                                     <FormGroup floating>    
-                                        <Input type='text' name="kids_served" id="kids_served" onChange={(e)=>{handleChange(e)}} placeholder="Kids Served" defaultValue={newItem?.kids_served} />
+                                        <Input type='text' name="kids_served" id="kids_served" onChange={(e)=>{handleChange(e)}} placeholder="Kids Served" value={newItem?.kids_served} />
                                         <Label htmlFor="kids_served">Kids Served</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={4}>
-                                    <FormGroup floating>
-                                        <Input type='text' name="location" id="location" onChange={(e)=>{handleChange(e)}} placeholder="Location" defaultValue={newItem?.location} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="location" id="location" onChange={(e)=>{handleChange(e)}} placeholder="Location" value={newItem?.location} />
                                         <Label htmlFor="location">Location</Label>
-                                    </FormGroup>
+                                        <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
+                                            {dropdownData?.location.map((value, idx)=>{
+                                                return <DropdownItem key={idx} onClick={()=>{handleComboClick('location', value)}}>{value}</DropdownItem>
+                                            })}
+                                        </FormDropdown>
+                                    </InputGroup>
                                 </Col>
                             </Row>
                             <Row>
@@ -175,7 +224,12 @@ const ItemEdit = () => {
                                 </Col>
                                 <Col xs={12} md={4}>
                                     <FormGroup floating>
-                                        <Input type='text' name="destination_id" id="destination_id" onChange={(e)=>{handleChange(e)}} placeholder="Destination" defaultValue={newItem?.destination_id?.id} />
+                                        <Input type='select' name="destination_id" id="destination_id" onChange={(e)=>{handleChange(e)}} placeholder="Destination" value={newItem?.destination_id}>
+                                            <option value={'NULL'}>N/A</option>
+                                            {destinationData?.map((destination)=>{
+                                                return <option key={destination.id} value={destination.id}>{destination.name}</option>
+                                            })}
+                                        </Input>
                                         <Label htmlFor="destination_id">Destination</Label>
                                     </FormGroup>
                                 </Col>

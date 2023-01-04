@@ -148,20 +148,20 @@ const ItemNew = () => {
                             <Row>
                                 <Col md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
-                                        <Input type='text' name="upc_code" id="upc_code" onChange={(e)=>{handleChange(e)}} value={newItem?.upc_code} />
+                                        <Input type='text' name="upc_code" id="upc_code" onChange={(e)=>{handleChange(e)}} placeholder="UPC" value={newItem?.upc_code} />
                                         <Label htmlFor="upc_code">UPC</Label>
                                         <Button color="primary" onClick={handleLookup}>+</Button>
                                     </InputGroup>
                                 </Col>
                                 <Col md={6}>
                                     <FormGroup floating>
-                                        <Input type='text' name="title_desc" id="title_desc" onChange={(e)=>{handleChange(e)}} value={newItem?.title_desc} />
+                                        <Input type='text' name="title_desc" id="title_desc" onChange={(e)=>{handleChange(e)}} placeholder="Title / Description" value={newItem?.title_desc} />
                                         <Label htmlFor="title_desc">Title / Description</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
-                                        <Input type='text' name="format" id="format" onChange={(e)=>{handleChange(e)}} value={newItem?.format} />
+                                        <Input type='text' name="format" id="format" onChange={(e)=>{handleChange(e)}} placeholder="Format" value={newItem?.format} />
                                         <Label htmlFor="format">Format</Label>
                                         <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
                                             {dropdownData?.format.map((value, idx)=>{
@@ -174,7 +174,7 @@ const ItemNew = () => {
                             <Row>
                                 <Col md={3}>
                                     <FormGroup floating>
-                                        <Input type='select' name="facility_id" id="facility_id" onChange={(e)=>{handleChange(e)}} value={newItem?.facility_id}>
+                                        <Input type='select' name="facility_id" id="facility_id" onChange={(e)=>{handleChange(e)}} placeholder="Facility" value={newItem?.facility_id}>
                                             {facilityData?.map((facility)=>{
                                                 return <option key={facility.id} value={facility.id}>{facility.name}</option>
                                             })}
@@ -184,7 +184,7 @@ const ItemNew = () => {
                                 </Col>
                                 <Col md={6}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
-                                        <Input type='text' name="category" id="category" onChange={(e)=>{handleChange(e)}} value={newItem?.category} />
+                                        <Input type='text' name="category" id="category" onChange={(e)=>{handleChange(e)}} placeholder="Category" value={newItem?.category} />
                                         <Label htmlFor="category">Category</Label>
                                         <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
                                             {dropdownData?.category.map((value, idx)=>{
@@ -195,7 +195,7 @@ const ItemNew = () => {
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup floating>
-                                        <Input type='select' name="condition" id="condition" onChange={(e)=>{handleChange(e)}} value={newItem?.condition}>
+                                        <Input type='select' name="condition" id="condition" onChange={(e)=>{handleChange(e)}} placeholder="Condition" value={newItem?.condition}>
                                             <option>Gently Used</option>
                                             <option>New</option>
                                         </Input>
@@ -206,13 +206,13 @@ const ItemNew = () => {
                             <Row>
                                 <Col md={4}>
                                     <FormGroup floating>
-                                        <Input type='text' name="artist" id="artist" onChange={(e)=>{handleChange(e)}} value={newItem?.artist} />
+                                        <Input type='text' name="artist" id="artist" onChange={(e)=>{handleChange(e)}} placeholder="Artist / Author" value={newItem?.artist} />
                                         <Label htmlFor="artist">Artist / Author</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
-                                        <Input type='text' name="genre" id="genre" onChange={(e)=>{handleChange(e)}} value={newItem?.genre} />
+                                        <Input type='text' name="genre" id="genre" onChange={(e)=>{handleChange(e)}} placeholder="Genre" value={newItem?.genre} />
                                         <Label htmlFor="genre">Genre</Label>
                                         <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
                                             {dropdownData?.genre.map((value, idx)=>{
@@ -223,7 +223,7 @@ const ItemNew = () => {
                                 </Col>
                                 <Col md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
-                                        <Input type='text' name="age_range" id="age_range" onChange={(e)=>{handleChange(e)}} value={newItem?.age_range} />
+                                        <Input type='text' name="age_range" id="age_range" onChange={(e)=>{handleChange(e)}} placeholder="Age Range" value={newItem?.age_range} />
                                         <Label htmlFor="age_range">Age Range</Label>
                                         <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
                                             {dropdownData?.age_range.map((value, idx)=>{
@@ -233,8 +233,8 @@ const ItemNew = () => {
                                     </InputGroup>
                                 </Col>
                                 <Col md={2}>
-                                <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
-                                        <Input type='text' name="rating" id="rating" onChange={(e)=>{handleChange(e)}} value={newItem?.rating} />
+                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                        <Input type='text' name="rating" id="rating" onChange={(e)=>{handleChange(e)}} placeholder="Rating" value={newItem?.rating} />
                                         <Label htmlFor="rating">Rating</Label>
                                         <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
                                             {dropdownData?.rating.map((value, idx)=>{
@@ -247,19 +247,19 @@ const ItemNew = () => {
                             <Row>
                                 <Col md={3}>
                                     <FormGroup floating>
-                                        <Input type='text' name="fair_market_value" id="fair_market_value" onChange={(e)=>{handleChange(e)}} value={newItem?.fair_market_value} />
+                                        <Input type='text' name="fair_market_value" id="fair_market_value" onChange={(e)=>{handleChange(e)}} placeholder="Fair Market Value" value={newItem?.fair_market_value} />
                                         <Label htmlFor="fair_market_value">Fair Market Value</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup floating>    
-                                        <Input type='text' name="kids_served" id="kids_served" onChange={(e)=>{handleChange(e)}} value={newItem?.kids_served} />
+                                        <Input type='text' name="kids_served" id="kids_served" onChange={(e)=>{handleChange(e)}} placeholder="Kids Served" value={newItem?.kids_served} />
                                         <Label htmlFor="kids_served">Kids Served</Label>
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
-                                        <Input type='text' name="location" id="location" onChange={(e)=>{handleChange(e)}} value={newItem?.location} />
+                                        <Input type='text' name="location" id="location" onChange={(e)=>{handleChange(e)}} placeholder="Location" value={newItem?.location} />
                                         <Label htmlFor="location">Location</Label>
                                         <FormDropdown dark={false} end={true} flip={true} direction={'down'}>
                                             {dropdownData?.location.map((value, idx)=>{
