@@ -54,16 +54,50 @@ export const menuItems = [
         ]
     },
     {
-        title: 'Lookup',
+        title: 'Administration',
         role: 'admin',
         submenu: [
             {
-                title: 'All Items',
-                url: '/lookup',
+                title: 'FMV Lookup',
+                role: 'admin',
+                submenu: [
+                    {
+                        title: 'All Items',
+                        url: '/lookup',
+                    },
+                    {
+                        title: 'Add Item',
+                        url: '/lookup/new',
+                    },
+                ]
             },
             {
-                title: 'Add Item',
-                url: '/lookup/new',
+                title: 'Facilities',
+                role: 'admin',
+                submenu: [
+                    {
+                        title: 'All Facilities',
+                        url: '/facility',
+                    },
+                    {
+                        title: 'Add Facility',
+                        url: '/facility/new',
+                    },
+                ]
+            },
+            {
+                title: 'Destinations',
+                role: 'admin',
+                submenu: [
+                    {
+                        title: 'All Destinations',
+                        url: '/destination',
+                    },
+                    {
+                        title: 'Add Destination',
+                        url: '/destination/new',
+                    },
+                ]
             },
         ]
     },

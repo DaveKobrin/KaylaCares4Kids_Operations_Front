@@ -6,6 +6,7 @@ import { ConstContext, UserContext } from "../App";
 import { useContext } from "react";
 
 const MenuItems = ({items, depthLevel}) => {
+    // console.log({depthLevel})
     const { currUser } = useContext(UserContext);
     const { AUDIENCE } = useContext(ConstContext);
     // const { getAccessTokenSilently } = useAuth0();
@@ -17,6 +18,14 @@ const MenuItems = ({items, depthLevel}) => {
     const closeDropdown = () => {
         dropdown && setDropdown(false);
     };
+
+    const onMouseEnter = () => {
+        setDropdown(true);
+    }
+
+    const onMouseExit = () => {
+        setDropdown(false);
+    }
 
     useEffect(() => {
         if(currUser !== {}) {
@@ -40,8 +49,8 @@ const MenuItems = ({items, depthLevel}) => {
     },[dropdown]);
 
     return(
-        <li className="menu-items" ref={ref} onClick={closeDropdown}>
-            {/* {console.log(items.url, ' <------ items.url')} */}
+        <li className="menu-items" ref={ref} onMouseEnter={onMouseEnter} onMouseLeave={onMouseExit} >
+            {/* {console.log({depthLevel:depthLevel, itemsURL: items.url, itemsSUBMENU: items.submenu})} */}
             { items.role && !currRoles.includes(items.role) ? (
                 <></>
             ) : items.submenu && items.url ? (
@@ -50,7 +59,7 @@ const MenuItems = ({items, depthLevel}) => {
                         <NavLink to={items.url}>{items.title}</NavLink>
                         {depthLevel > 0 ? <span>&raquo;</span>:<span className="arrow" />}
                     </button>
-                    <Dropdown submenus={items.submenu} dropdown={dropdown} />
+                    <Dropdown submenus={items.submenu} dropdown={dropdown} depthLevel={depthLevel} />
                 </>
             ) : !items.url && items.submenu ? (
                 <>
@@ -58,7 +67,7 @@ const MenuItems = ({items, depthLevel}) => {
                         {items.title}{' '}
                         {depthLevel > 0 ? <span>&raquo;</span>:<span className="arrow" />}
                     </button>
-                    <Dropdown submenus={items.submenu} dropdown={dropdown} />
+                    <Dropdown submenus={items.submenu} dropdown={dropdown} depthLevel={depthLevel} />
                 </>
             ) : (
                 <NavLink to={items.url}>{items.title}</NavLink>
