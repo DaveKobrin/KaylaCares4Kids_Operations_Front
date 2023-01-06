@@ -49,7 +49,7 @@ const MenuItems = ({items, depthLevel}) => {
     },[dropdown]);
 
     return(
-        <li className="menu-items" ref={ref} onMouseEnter={onMouseEnter} onMouseLeave={onMouseExit} >
+        <li className="menu-items" ref={ref} onMouseEnter={onMouseEnter} onMouseLeave={onMouseExit} onClick={closeDropdown} >
             {/* {console.log({depthLevel:depthLevel, itemsURL: items.url, itemsSUBMENU: items.submenu})} */}
             { items.role && !currRoles.includes(items.role) ? (
                 <></>

@@ -20,7 +20,10 @@ const ItemEdit = () => {
     useEffect(()=>{
         const loadone = async () => {
             const itm = await getOneItem(parseInt(id));
-            if(itm) setNewItem({...itm});
+            if(itm) {
+                itm.destination_id = itm.destination_id?.id;
+                setNewItem({...itm});
+            }
             const data = await getLookupData();
             if (data) setLookupData(data);
             const facData = await getFacilityData();
