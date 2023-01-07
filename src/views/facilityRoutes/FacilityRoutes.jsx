@@ -5,7 +5,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import './facility_styles.css';
 
-const LookupRoutes = () => {
+const FacilityRoutes = () => {
     const { getAccessTokenSilently } = useAuth0();
     // const { currUser } = useContext(UserContext);
     const { BACK_URI } = useContext(ConstContext); 
@@ -92,4 +92,4 @@ const LookupRoutes = () => {
     )
 }
 
-export default LookupRoutes;
+export default FacilityRoutes;

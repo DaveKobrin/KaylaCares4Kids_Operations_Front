@@ -30,8 +30,8 @@ export { default as FacilityIndex } from './facilityRoutes/FacilityIndex';
 export { default as FacilityNew } from './facilityRoutes/FacilityNew';
 export { default as FacilityShow } from './facilityRoutes/FacilityShow';
 
-// export { default as DestinationRoutes } from './destinationRoutes/DestinationRoutes';
-// export { default as DestinationEdit } from './destinationRoutes/DestinationEdit';
-// export { default as DestinationIndex } from './destinationRoutes/DestinationIndex';
-// export { default as DestinationNew } from './destinationRoutes/DestinationNew';
-// export { default as DestinationShow } from './destinationRoutes/DestinationShow';
+export { default as DestinationRoutes } from './destinationRoutes/DestinationRoutes';
+export { default as DestinationEdit } from './destinationRoutes/DestinationEdit';
+export { default as DestinationIndex } from './destinationRoutes/DestinationIndex';
+export { default as DestinationNew } from './destinationRoutes/DestinationNew';
+export { default as DestinationShow } from './destinationRoutes/DestinationShow';
