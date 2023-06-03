@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import { LookupIndex, LookupNew, LookupShow, LookupEdit, NotFound } from '..';
-import { DataContext, UserContext, ConstContext } from '../../App';
+import { LookupIndex, LookupNew, LookupShow, LookupEdit, NotFound } from '../..';
+import { DataContext, UserContext, ConstContext } from '../../../App';
 import { useState, useContext, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import './lookup_styles.css';

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ConstContext, DataContext } from "../../App";
+import { ConstContext, DataContext } from "../../../App";
 import { useAuth0 } from "@auth0/auth0-react";
 
 
 const DestinationShow = () => {
     const { id } = useParams();
-    const { BACK_URI } = useContext(ConstContext);
+    const { BACK_URI, PATH_STRINGS } = useContext(ConstContext);
     const { getAllDestinations, getOneDestination } = useContext(DataContext);
     const [ destination, setDestination ] = useState({});
     const { getAccessTokenSilently } = useAuth0();
@@ -35,7 +35,7 @@ const DestinationShow = () => {
             });
             if(response.ok){
                 getAllDestinations();
-                navigate('/destination');
+                navigate(PATH_STRINGS.ops_destinations);
             }
         } catch (error) {
             console.error(error);
@@ -58,7 +58,7 @@ const DestinationShow = () => {
                     <div className="show-row"><span className="show-label">Contact Phone:</span>    <span className="show-data">{destination?.contact_phone}</span></div>
 
                     <div className="show-button-group">
-                            <input type='button' value='EDIT' onClick={()=>navigate(`/destination/edit/${id}`)} />
+                            <input type='button' value='EDIT' onClick={()=>navigate(`${PATH_STRINGS.ops_destinations}/edit/${id}`)} />
                             {/* <input type='button' value='DELETE' onClick={handleDelete} /> */}
                     </div>
                 </div>

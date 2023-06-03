@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
-import { UserContext, ConstContext } from "../../App";
+import { UserContext, ConstContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
     
-    const { BACK_URI } = useContext(ConstContext);
+    const { BACK_URI, PATH_STRINGS } = useContext(ConstContext);
     const { setCurrUser } = useContext(UserContext);
     const navigate = useNavigate();
     // console.log('in logout')
@@ -21,7 +21,7 @@ const Logout = () => {
             if(response.ok){
                 const jsonResp = await response.json();
                 setCurrUser({});
-                navigate(`/`);
+                navigate(PATH_STRINGS.home);
             }
         } catch (error) {
             console.error(error);

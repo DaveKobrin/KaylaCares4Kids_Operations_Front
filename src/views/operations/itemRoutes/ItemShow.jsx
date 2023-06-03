@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ConstContext, DataContext } from "../../App";
+import { ConstContext, DataContext } from "../../../App";
 import { useAuth0 } from "@auth0/auth0-react";
 
 
 const ItemShow = () => {
     const { id } = useParams();
-    const { BACK_URI } = useContext(ConstContext);
+    const { BACK_URI, PATH_STRINGS } = useContext(ConstContext);
     const { getAllItems, getOneItem } = useContext(DataContext);
     const [ item, setItem ] = useState({});
     const { getAccessTokenSilently } = useAuth0();
@@ -35,7 +35,7 @@ const ItemShow = () => {
             });
             if(response.ok){
                 getAllItems();
-                navigate('/items');
+                navigate(PATH_STRINGS.ops_items);
             }
         } catch (error) {
             console.error(error);
@@ -65,7 +65,7 @@ const ItemShow = () => {
                     <div className="show-row"><span className="show-label">Destination:</span>          <span className="show-data">{item?.destination_id?.name}</span></div>
 
                     <div className="show-button-group">
-                            <input type='button' value='EDIT' onClick={()=>navigate(`/items/edit/${id}`)} />
+                            <input type='button' value='EDIT' onClick={()=>navigate(`${PATH_STRINGS.ops_items}/edit/${id}`)} />
                             <input type='button' value='DELETE' onClick={handleDelete} />
                     </div>
                 </div>

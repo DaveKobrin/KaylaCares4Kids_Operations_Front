@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { NotFound, Login, Logout } from "..";
+import { NotFound, Login, Logout } from "../..";
 
 const UserRoutes = () => {
 

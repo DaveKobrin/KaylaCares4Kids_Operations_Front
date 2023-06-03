@@ -1,16 +1,18 @@
 import { useContext } from "react";
-import { DataContext } from "../../App";
+import { DataContext, ConstContext } from "../../../App";
 import { Link } from "react-router-dom";
 
 
 const ItemIndex = () => {
-    const { allItems } = useContext(DataContext)
+    const { allItems } = useContext(DataContext);
+    const { PATH_STRINGS } = useContext(ConstContext);
+
     return(
         <>
             <h1>item index</h1>
             <ul>
                 {allItems && allItems.map((item,idx) => {
-                   return <li key={idx}><Link to={`/items/show/${item.id}`}>{item.title_desc}</Link></li>
+                   return <li key={idx}><Link to={`${PATH_STRINGS.ops_items}/show/${item.id}`}>{item.title_desc}</Link></li>
                 })}
             </ul>
         </>

@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import { DestinationIndex, DestinationNew, DestinationShow, DestinationEdit, NotFound } from '..';
-import { DataContext, UserContext, ConstContext } from '../../App';
+import { DestinationIndex, DestinationNew, DestinationShow, DestinationEdit, NotFound } from '../..';
+import { DataContext, UserContext, ConstContext } from '../../../App';
 import { useState, useContext, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import './destination_styles.css';

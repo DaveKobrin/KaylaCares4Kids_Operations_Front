@@ -1,13 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { ConstContext, DataContext } from "../../App";
+import { ConstContext, DataContext } from "../../../App";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Form, FormGroup, Label, Input, Row, Button } from 'reactstrap';
 
 
 const LookupEdit = () => {
     const { id } = useParams();
-    const { BACK_URI } = useContext(ConstContext);
+    const { BACK_URI, PATH_STRINGS } = useContext(ConstContext);
     const { getOneLookupItem, getAllLookupItems } = useContext(DataContext);
     const { getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
@@ -45,7 +45,7 @@ const LookupEdit = () => {
             });
             if(response.ok){
                 getAllLookupItems();
-                navigate('/lookup')
+                navigate(PATH_STRINGS.ops_lookups)
             }
         } catch (error) {
             console.error(error);

@@ -1,3 +1,13 @@
+export const PATH_STRINGS = {
+    home: "/",
+    ops_home: "/operations/",
+    ops_destinations: "/operations/destinations",
+    ops_facilities: "/operations/facilities",
+    ops_items: "/operations/items",
+    ops_lookups: "/operations/lookups",
+    ops_users: "/operations/users",
+}
+
 export const countries = [
     { name: `United States of America (the)`,                               code2: 'US', code3: 'USA' },
     { name: `Afghanistan`,                                                  code2: 'AF', code3: 'AFG' },

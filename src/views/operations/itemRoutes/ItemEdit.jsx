@@ -1,43 +1,43 @@
-import { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { ConstContext, DataContext } from "../../App";
+import { useState, useContext, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Container, Form, FormGroup, Label, Input, InputGroup, Row, Col, Button, Table, DropdownItem } from 'reactstrap';
-import { FormDropdown } from '../../components';
+import { ConstContext, DataContext } from "../../../App";
+import { useParams, useNavigate } from "react-router-dom";
+import { Container, Form, FormGroup, Label, Input, Row, Col, Button, Table, InputGroup, DropdownItem } from 'reactstrap';
+import { FormDropdown } from "../../../components";
 
-const ItemNew = () => {
-    const placeholderData = {
-        upc_code: '',
-        title_desc: '',
-        format: '',
-        facility_id: '',
-        category: '',
-        condition: '',
-        artist: '',
-        genre: '',
-        age_range: '',
-        rating: '',
-        fair_market_value: '',
-        kids_served: '',
-        location: '',
-        quantity: 1,
-    }
 
-    const { BACK_URI } = useContext(ConstContext);
-    const { dropdownData, getAllItems, getLookupData, getFacilityData } = useContext(DataContext);
+const ItemEdit = () => {
+    const { id } = useParams();
+    const { BACK_URI, PATH_STRINGS } = useContext(ConstContext);
+    const { dropdownData, getOneItem, getAllItems, getLookupData, getFacilityData, getDestinationData } = useContext(DataContext);
     const { getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
-    const [ newItem, setNewItem ] = useState({placeholderData});
     const [ lookupData, setLookupData ] = useState([]);
     const [ facilityData, setFacilityData ] = useState([]);
+    const [ destinationData, setDestinationData ] = useState([]);
+    const [ newItem, setNewItem ] = useState({});
 
+    useEffect(()=>{
+        const loadone = async () => {
+            const itm = await getOneItem(parseInt(id));
+            if(itm) {
+                itm.destination_id = itm.destination_id?.id;
+                setNewItem({...itm});
+            }
+            const data = await getLookupData();
+            if (data) setLookupData(data);
+            const facData = await getFacilityData();
+            if (facData) setFacilityData(facData);
+            const destData = await getDestinationData();
+            if (destData) setDestinationData(destData);
+        }
+        loadone();
+    },[]);
 
     useEffect(()=>{
         const getData = async () => {
             const data = await getLookupData();
             if (data) setLookupData(data);
-            const facData = await getFacilityData();
-            if (facData) setFacilityData(facData);
         };
         getData();
     },[]);
@@ -47,7 +47,6 @@ const ItemNew = () => {
         let tmpItem = {...newItem};
         tmpItem[e.target.name] = e.target.value;
         setNewItem(tmpItem);
-        // console.log({tmpItem})
     }
 
     const handleComboClick = (target, value) => {
@@ -61,81 +60,26 @@ const ItemNew = () => {
         const accessToken = await getAccessTokenSilently();
         e.preventDefault();
         let tmpItem = {...newItem};
-        const payload = [];
-        // console.log({tmpItem})
-        tmpItem.facility_id = parseInt(tmpItem.facility_id) || 1;
-        const quant = parseInt(tmpItem.quantity) || 1;
-        delete tmpItem.quantity;
-        for (let index = 0; index < quant; index++) {
-            payload.push(tmpItem);
-        }
-        // console.log({payload})
+        tmpItem.received_by = typeof tmpItem.received_by !== "string"? tmpItem.received_by.id: tmpItem.received_by;
+        tmpItem.facility_id = typeof tmpItem.facility_id !== "string"? tmpItem.facility_id.id: tmpItem.facility_id;
+        tmpItem.destination_id = (typeof tmpItem.destination_id !== "string" && tmpItem.destination_id !== null)? tmpItem.destination_id.id: tmpItem.destination_id;
+        // console.log(tmpItem);
         try {
-            const response = await fetch(BACK_URI + '/api/v1/inventory/', {
-                method: 'POST',
+            const response = await fetch(BACK_URI + '/api/v1/inventory/' + id, {
+                method: 'PUT',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(tmpItem)
             });
             if(response.ok){
                 getAllItems();
-                navigate('/items')
+                navigate(PATH_STRINGS.ops_items);
             }
         } catch (error) {
             console.error(error);
-        }
-    }
-    
-    const handleLookup = async () => {
-        if(newItem['upc_code']) {
-            const applyData = (data) => {
-                const tmpData = {...newItem};
-                tmpData.upc_code = data?.upc ? data.upc : tmpData.upc_code;
-                tmpData.title_desc = data?.title ? data.title : tmpData.title_desc;
-                tmpData.category = data?.category ? data.category : tmpData.category;
-                tmpData.artist = data?.publisher ? data.publisher : tmpData.artist;
-                if (data?.offers?.length > 0) {
-                    let minNew = Infinity;
-                    let minUsed = Infinity;
-                    for (const offer of data.offers) {
-                        if(offer.condition.toLowerCase() === 'new' && offer.price < minNew ) {
-                            minNew = offer.price;
-                        }
-                        if(offer.condition.toLowerCase() === 'used' && offer.price < minUsed) {
-                            minUsed = offer.price;
-                        }
-                    }
-                    if(minNew === Infinity) minNew = 'unknown';
-                    if(minUsed === Infinity) minUsed = 'unknown';
-                    const fmvString = `retail new: ${minNew} used: ${minUsed}`;
-                    tmpData.fair_market_value = fmvString;
-                }
-                setNewItem(tmpData);
-            }
-            const accessToken = await getAccessTokenSilently();
-            const payload = newItem['upc_code'];    
-            // console.log({payload});
-            try {
-                const response = await fetch(BACK_URI + '/api/v1/inventory/upc/' + payload, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                if(response.ok) {
-                    const jsonResponse = await response.json();
-                    const {data} = jsonResponse;
-                    applyData(data.items[0]);
-                    // console.log({upcData});
-                }
-            } catch (error) {
-                console.error(error);
-            }
         }
     }
 
@@ -146,20 +90,19 @@ const ItemNew = () => {
                     <Container>
                         <Form onSubmit={handleSubmit}>
                             <Row>
-                                <Col md={3}>
-                                    <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
+                                <Col xs={12} md={3}>
+                                    <FormGroup floating>
                                         <Input type='text' name="upc_code" id="upc_code" onChange={(e)=>{handleChange(e)}} placeholder="UPC" value={newItem?.upc_code} />
                                         <Label htmlFor="upc_code">UPC</Label>
-                                        <Button color="primary" onClick={handleLookup}>+</Button>
-                                    </InputGroup>
+                                    </FormGroup>
                                 </Col>
-                                <Col md={6}>
+                                <Col xs={12} md={6}>
                                     <FormGroup floating>
                                         <Input type='text' name="title_desc" id="title_desc" onChange={(e)=>{handleChange(e)}} placeholder="Title / Description" value={newItem?.title_desc} />
                                         <Label htmlFor="title_desc">Title / Description</Label>
                                     </FormGroup>
                                 </Col>
-                                <Col md={3}>
+                                <Col xs={12} md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
                                         <Input type='text' name="format" id="format" onChange={(e)=>{handleChange(e)}} placeholder="Format" value={newItem?.format} />
                                         <Label htmlFor="format">Format</Label>
@@ -172,7 +115,7 @@ const ItemNew = () => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={3}>
+                                <Col xs={12} md={3}>
                                     <FormGroup floating>
                                         <Input type='select' name="facility_id" id="facility_id" onChange={(e)=>{handleChange(e)}} placeholder="Facility" value={newItem?.facility_id}>
                                             {facilityData?.map((facility)=>{
@@ -182,7 +125,7 @@ const ItemNew = () => {
                                         <Label htmlFor="facility_id">Facility</Label>
                                     </FormGroup>
                                 </Col>
-                                <Col md={6}>
+                                <Col xs={12} md={6}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
                                         <Input type='text' name="category" id="category" onChange={(e)=>{handleChange(e)}} placeholder="Category" value={newItem?.category} />
                                         <Label htmlFor="category">Category</Label>
@@ -193,7 +136,7 @@ const ItemNew = () => {
                                         </FormDropdown>
                                     </InputGroup>
                                 </Col>
-                                <Col md={3}>
+                                <Col xs={12} md={3}>
                                     <FormGroup floating>
                                         <Input type='select' name="condition" id="condition" onChange={(e)=>{handleChange(e)}} placeholder="Condition" value={newItem?.condition}>
                                             <option>Gently Used</option>
@@ -204,13 +147,13 @@ const ItemNew = () => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={4}>
+                                <Col xs={12} md={4}>
                                     <FormGroup floating>
                                         <Input type='text' name="artist" id="artist" onChange={(e)=>{handleChange(e)}} placeholder="Artist / Author" value={newItem?.artist} />
                                         <Label htmlFor="artist">Artist / Author</Label>
                                     </FormGroup>
                                 </Col>
-                                <Col md={3}>
+                                <Col xs={12} md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
                                         <Input type='text' name="genre" id="genre" onChange={(e)=>{handleChange(e)}} placeholder="Genre" value={newItem?.genre} />
                                         <Label htmlFor="genre">Genre</Label>
@@ -221,7 +164,7 @@ const ItemNew = () => {
                                         </FormDropdown>
                                     </InputGroup>
                                 </Col>
-                                <Col md={3}>
+                                <Col xs={12} md={3}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
                                         <Input type='text' name="age_range" id="age_range" onChange={(e)=>{handleChange(e)}} placeholder="Age Range" value={newItem?.age_range} />
                                         <Label htmlFor="age_range">Age Range</Label>
@@ -232,7 +175,7 @@ const ItemNew = () => {
                                         </FormDropdown>
                                     </InputGroup>
                                 </Col>
-                                <Col md={2}>
+                                <Col xs={12} md={2}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
                                         <Input type='text' name="rating" id="rating" onChange={(e)=>{handleChange(e)}} placeholder="Rating" value={newItem?.rating} />
                                         <Label htmlFor="rating">Rating</Label>
@@ -245,19 +188,19 @@ const ItemNew = () => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={3}>
+                                <Col xs={12} md={4}>
                                     <FormGroup floating>
                                         <Input type='text' name="fair_market_value" id="fair_market_value" onChange={(e)=>{handleChange(e)}} placeholder="Fair Market Value" value={newItem?.fair_market_value} />
                                         <Label htmlFor="fair_market_value">Fair Market Value</Label>
                                     </FormGroup>
                                 </Col>
-                                <Col md={3}>
+                                <Col xs={12} md={4}>
                                     <FormGroup floating>    
                                         <Input type='text' name="kids_served" id="kids_served" onChange={(e)=>{handleChange(e)}} placeholder="Kids Served" value={newItem?.kids_served} />
                                         <Label htmlFor="kids_served">Kids Served</Label>
                                     </FormGroup>
                                 </Col>
-                                <Col md={3}>
+                                <Col xs={12} md={4}>
                                     <InputGroup cssModule={{'input-group': 'input-group-floating'}} floating>
                                         <Input type='text' name="location" id="location" onChange={(e)=>{handleChange(e)}} placeholder="Location" value={newItem?.location} />
                                         <Label htmlFor="location">Location</Label>
@@ -268,14 +211,33 @@ const ItemNew = () => {
                                         </FormDropdown>
                                     </InputGroup>
                                 </Col>
-                                <Col md={3}>
+                            </Row>
+                            <Row>
+                                <Col xs={12} md={4}>
                                     <FormGroup floating>
-                                        <Input type='text' name="quantity" id="quantity" defaultValue='1' onChange={(e)=>{handleChange(e)}} value={newItem?.quantity} />
-                                        <Label htmlFor="quantity">Quantity</Label>
+                                        <Input type='date' name="date_received" id="date_received" onChange={(e)=>{handleChange(e)}} placeholder="Date Received" defaultValue={newItem?.date_received} />
+                                        <Label htmlFor="date_received">Date Received</Label>
+                                    </FormGroup>
+                                </Col>
+                                <Col xs={12} md={4}>
+                                    <FormGroup floating>
+                                        <Input type='date' name="date_shipped" id="date_shipped" onChange={(e)=>{handleChange(e)}} placeholder="Date Shipped" defaultValue={newItem?.date_shipped} />
+                                        <Label htmlFor="date_shipped">Date Shipped</Label>
+                                    </FormGroup>
+                                </Col>
+                                <Col xs={12} md={4}>
+                                    <FormGroup floating>
+                                        <Input type='select' name="destination_id" id="destination_id" onChange={(e)=>{handleChange(e)}} placeholder="Destination" value={newItem?.destination_id}>
+                                            <option value={'NULL'}>N/A</option>
+                                            {destinationData?.map((destination)=>{
+                                                return <option key={destination.id} value={destination.id}>{destination.name}</option>
+                                            })}
+                                        </Input>
+                                        <Label htmlFor="destination_id">Destination</Label>
                                     </FormGroup>
                                 </Col>
                             </Row>
-                            <Button tag="input" type="submit" value="Add Item(s)" color="primary" size="lg" />
+                            <Button tag="input" type="submit" value="Update Item" color="primary" />
 
                         </Form>
                     </Container>
@@ -307,5 +269,23 @@ const ItemNew = () => {
     )
 }
 
-export default ItemNew;
+export default ItemEdit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

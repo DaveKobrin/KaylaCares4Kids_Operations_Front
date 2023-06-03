@@ -1,11 +1,11 @@
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ConstContext, DataContext } from "../../App";
+import { ConstContext, DataContext } from "../../../App";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Container, Form, FormGroup, Label, Input, Row, Col, Button, Table } from 'reactstrap';
 
 const LookupNew = () => {
-    const { BACK_URI } = useContext(ConstContext);
+    const { BACK_URI, PATH_STRINGS } = useContext(ConstContext);
     const { getAllLookupItems } = useContext(DataContext);
     const { getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ const LookupNew = () => {
             });
             if(response.ok){
                 getAllLookupItems();
-                navigate('/lookup')
+                navigate(PATH_STRINGS.ops_lookups);
             }
         } catch (error) {
             console.error(error);

@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { ConstContext, UserContext } from "../../App";
+import { ConstContext, UserContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth0} from '@auth0/auth0-react'
 
 const Login = () => {
-    const { BACK_URI } = useContext(ConstContext);
+    const { BACK_URI, PATH_STRINGS } = useContext(ConstContext);
     const { setCurrUser } = useContext(UserContext);
     const navigate = useNavigate();
     const { user, getAccessTokenSilently } = useAuth0();
@@ -29,7 +29,7 @@ const Login = () => {
                 if(response.ok){
                     setCurrUser(user);
                     // console.log(user);
-                    navigate(`/`);
+                    navigate(PATH_STRINGS.ops_home);
                 }
             } catch (error) {
                 console.error(error);

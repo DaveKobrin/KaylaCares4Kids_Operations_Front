@@ -1,7 +1,8 @@
+import { PATH_STRINGS } from "./constants"
 export const menuItems = [
     {
         title: 'HOME',
-        url: '/',
+        url: PATH_STRINGS.home,
     },
     // {
     //     title: 'testing',
@@ -45,11 +46,11 @@ export const menuItems = [
         submenu: [
             {
                 title: 'All Items',
-                url: '/items',
+                url: PATH_STRINGS.ops_items,
             },
             {
                 title: 'Add Item(s)',
-                url: '/items/new',
+                url: `${PATH_STRINGS.ops_items}/new`,
             },
         ]
     },
@@ -63,11 +64,11 @@ export const menuItems = [
                 submenu: [
                     {
                         title: 'All Items',
-                        url: '/lookup',
+                        url: PATH_STRINGS.ops_lookups,
                     },
                     {
                         title: 'Add Item',
-                        url: '/lookup/new',
+                        url: `${PATH_STRINGS.ops_lookups}/new`,
                     },
                 ]
             },
@@ -77,11 +78,11 @@ export const menuItems = [
                 submenu: [
                     {
                         title: 'All Facilities',
-                        url: '/facility',
+                        url: PATH_STRINGS.ops_facilities,
                     },
                     {
                         title: 'Add Facility',
-                        url: '/facility/new',
+                        url: `${PATH_STRINGS.ops_facilities}/new`,
                     },
                 ]
             },
@@ -91,11 +92,11 @@ export const menuItems = [
                 submenu: [
                     {
                         title: 'All Destinations',
-                        url: '/destination',
+                        url: PATH_STRINGS.ops_destinations,
                     },
                     {
                         title: 'Add Destination',
-                        url: '/destination/new',
+                        url: `${PATH_STRINGS.ops_destinations}/new`,
                     },
                 ]
             },
