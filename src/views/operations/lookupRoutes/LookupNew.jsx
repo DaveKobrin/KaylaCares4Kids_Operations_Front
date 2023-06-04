@@ -1,8 +1,8 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ConstContext, DataContext } from "../../../App";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Container, Form, FormGroup, Label, Input, Row, Col, Button, Table } from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, Row, Button } from 'reactstrap';
 
 const LookupNew = () => {
     const { BACK_URI, PATH_STRINGS } = useContext(ConstContext);

@@ -1,45 +1,17 @@
 import { PATH_STRINGS } from "./constants"
+
 export const menuItems = [
     {
         title: 'HOME',
         url: PATH_STRINGS.home,
     },
-    // {
-    //     title: 'testing',
-    //     submenu: [
-    //         {
-    //             title: 'public',
-    //             url: '/test/public'
-    //         },
-    //         {
-    //             title: 'protected',
-    //             url: '/test/protected',
-    //         },
-    //         {
-    //             title: 'admin',
-    //             url: '/test/admin',
-    //             role: 'admin'
-    //         },
-    //     ]
-    // },
-    // {
-    //     title: 'USERS',
-    //     role: 'admin',
-    //     submenu: [
-    //         {
-    //             title: 'LOGIN',
-    //             url: '/users/login'
-    //         },
-    //         {
-    //             title: 'REGISTER',
-    //             url: '/users/register'
-    //         },
-    //         {
-    //             title: 'LOGOUT',
-    //             url: '/users/logout'
-    //         }
-    //     ]
-    // },
+]
+
+export const menuItemsOps = [
+    {
+        title: 'HOME',
+        url: PATH_STRINGS.home,
+    },
     {
         title: 'Items',
         role: 'Internal',

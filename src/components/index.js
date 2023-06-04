@@ -1,4 +1,5 @@
 export { default as Navbar } from './Navbar';
+export { default as OpsNavbar } from './OpsNavbar';
 export { default as MenuItems } from './MenuItems';
 export { default as Dropdown } from './Dropdown';
 export { default as LoginButton } from './buttons/login-button';

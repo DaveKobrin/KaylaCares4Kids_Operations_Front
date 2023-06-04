@@ -1,5 +1,5 @@
 import './Navbar.css';
-import { menuItems } from "../menuItems";
+import { menuItemsOps } from "../menuItems";
 import { MenuItems } from ".";
 import { NavBarButtons } from "."
 
@@ -7,7 +7,7 @@ const OpsNavbar = () => {
     return (
         <nav>
             <ul className="menus">
-                {menuItems.map((menu,idx) => {
+                {menuItemsOps.map((menu,idx) => {
                     const depthLevel = 0;
                     return < MenuItems key={idx} items={menu} depthLevel={depthLevel} />    
                 })}

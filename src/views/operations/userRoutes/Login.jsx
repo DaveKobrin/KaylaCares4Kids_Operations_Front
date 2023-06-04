@@ -36,11 +36,7 @@ const Login = () => {
             }
         }
         doFetch();
-        // if (!accessToken)
-            // setTimeout(() => {
-            //     console.log('accessToken: ', accessToken)
-            //     doFetch();
-            // }, 1250);
+
     }
 
     useEffect(()=>{ handleLogin() },[])

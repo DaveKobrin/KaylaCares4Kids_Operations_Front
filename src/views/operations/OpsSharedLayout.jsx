@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { Navbar } from "../../components";
+import { OpsNavbar } from "../../components";
 
 const OpsSharedLayout = () => {
 
@@ -8,7 +8,7 @@ const OpsSharedLayout = () => {
             <header>
                 <div className="nav-area">
                     <NavLink to='/' className='logo'><img className="nav-logo" src='/kayla-cares-4-kids-logo.png' alt="Kayla Cares 4 Kids Logo" /></NavLink>
-                    <Navbar />
+                    <OpsNavbar />
                 </div>
             </header>
             <section>

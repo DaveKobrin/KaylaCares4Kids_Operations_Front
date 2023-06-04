@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom"
 import { MenuItems } from "."
 
 const Dropdown = ({submenus, dropdown, depthLevel}) => {

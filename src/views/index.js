@@ -1,6 +1,6 @@
 export { default as NotFound } from './NotFound';
-export { default as SharedLayout } from './SharedLayout';
-export { default as Landing } from './Landing';
+export { default as SharedLayout } from './public/SharedLayout';
+export { default as Landing } from './public/Landing';
 export { default as UserProtectedRoute } from './UserProtectedRoute';
 export { default as CallbackView } from './CallbackView';
 
