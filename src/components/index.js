@@ -8,4 +8,5 @@ export { default as FormDropdown } from './FormDropdown';
 export { default as NavBarButtons } from './buttons/nav-bar-buttons';
 export { default as PageLoader } from './PageLoader';
 export { default as Auth0LoginRequired } from './Auth0LoginRequired';
-
+export { default as CardFloatText } from './CardFloatText';
+export { default as FAQAccordian } from './FAQAccordian';

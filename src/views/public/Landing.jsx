@@ -1,4 +1,4 @@
-import { Hero, Intro } from "../partials"
+import { FAQ, GetInvolved, Hero, InNews, Intro } from "../partials"
 import Counters from "../partials/Counters";
 
 
@@ -8,6 +8,9 @@ const Landing = () => {
             <Hero />
             <Intro />
             <Counters />
+            <GetInvolved />
+            <InNews />
+            <FAQ />
         </>
     )
 }
