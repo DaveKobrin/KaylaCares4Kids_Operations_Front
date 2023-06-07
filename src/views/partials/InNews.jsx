@@ -26,7 +26,7 @@ const InNews = () => {
         <section className="in-the-news">
             <div className="sect-head color-green font-xl">
                 <span className='font-playful marg-r-sm'>In the News</span>
-                <FontAwesomeIcon icon={faNewspaper} className='font-xxl' />
+                <FontAwesomeIcon icon={faNewspaper} className='font-xl' />
             </div>
             <div className="in-news-container">
                 <div className='in-news-card'>

@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { Navbar } from "../../components";
+import { ContactUs } from "../partials";
 import "./styles.css";
 
 const SharedLayout = () => {
@@ -14,6 +15,9 @@ const SharedLayout = () => {
             </header>
             <section>
                 <Outlet />
+            </section>
+            <section>
+                <ContactUs />
             </section>
         </>
     );

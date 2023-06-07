@@ -7,7 +7,7 @@ const GetInvolved = () => {
         <section className='get-involved-section'>
             <div className='sect-head color-red font-xl'>
                 <span className='font-playful marg-r-sm'>Get Involved!</span>
-                <span className='font-xxl'><i className='fad fa-box-heart'></i></span>
+                <span className='font-xl'><i className='fad fa-box-heart'></i></span>
             </div>
 
             <div className='get-involved-button-container'>

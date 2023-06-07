@@ -4,12 +4,14 @@ import { FAQAccordian } from "../../components"
 
 const FAQ = () => {
     return (
-        <section>
+        <section className="faq-sect">
             <div className="sect-head font-xl color-teal">
                 <span className='font-playful marg-r-sm'>Questions</span>
                 <FontAwesomeIcon icon={faQuestion} className="font-xxl" />
             </div>
-            <FAQAccordian />
+            <div className="faq-sect-div">
+                <FAQAccordian />
+            </div>
         </section>
     )
 }

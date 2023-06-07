@@ -1,10 +1,9 @@
 import './CardFloatText.css';
 
-const CardFloatText = (props) => {
-    const { imgSrc, title, text } = props.props;
+const CardFloatText = ({props}) => {
+    const { imgSrc, title, text } = props;
     return (
         <div className="card-float-text-background" style={{backgroundImage: `url(${imgSrc})`}}>
-            {console.log({props})}
             <div className="card-float-text-container">
                 <div className="card-float-text">
                     <p>{text}</p>

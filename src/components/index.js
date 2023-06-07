@@ -10,3 +10,4 @@ export { default as PageLoader } from './PageLoader';
 export { default as Auth0LoginRequired } from './Auth0LoginRequired';
 export { default as CardFloatText } from './CardFloatText';
 export { default as FAQAccordian } from './FAQAccordian';
+export { default as KC4KCarousel } from './KC4KCarousel';

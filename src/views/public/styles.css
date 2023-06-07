@@ -1,7 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap');
+:root {
+    --photo-carousel-height: 600px;
+    --photo-carousel-width: 800px;
+}
+
+html {
+    font-size: 10pt;
+}
+
 body {
     background-image: linear-gradient(50deg, rgb(164, 187, 233), rgb(199, 235, 251), rgb(134, 134, 249) );
 }
+
 .hero {
     background-image: url('https://kaylacares4kids.org/wp-content/uploads/2021/04/Untitled-1.jpg');
     background-position: center center;
@@ -29,7 +39,7 @@ body {
 
 .hero-text {
     font-weight: bold;
-    padding: .5rem 2rem;
+    padding: .5rem .75rem;
     text-shadow: 1px 1px 4px white, -1px -1px 4px white, 1px 1px 8px #051e43;
 }
 
@@ -104,17 +114,17 @@ body {
 }
 
 .font-xxl {
-    font-size: xx-large;
+    font-size: 1.3rem;
     font-weight: bolder;
 }
 
 .font-xl {
-    font-size: x-large;
+    font-size: 1.2rem;
     font-weight: bolder;
 }
 
 .font-l {
-    font-size: large;
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
@@ -151,8 +161,8 @@ body {
     align-items: center;
     border: 4px solid;
     border-radius: 1rem;
-    height: 9rem;
-    width: 11.5rem;
+    height: 9em;
+    width: 11.5em;
     margin-bottom: 1rem;
 }
 
@@ -163,9 +173,20 @@ body {
 }
 
 .in-news-card {
-    height: 30rem;
-    width: 28%;
+    height: 85vh;
+    width: 31%;
     margin-bottom: 2rem;
+}
+
+.faq-sect {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.faq-sect-div {
+    width: 85%;
 }
 
 .sect-foot {
@@ -173,11 +194,34 @@ body {
     justify-content: space-evenly;
 }
 
+.photo-carousel-container {
+    width: 100%;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.photo-carousel-position {
+    width: .01px;
+    padding-bottom: var(--photo-carousel-height);
+    max-height: 100vh;
+}
+.photo-carousel-content {
+    max-width: 800px;
+    max-height: 600px;
+}
+
+.carousel-img {
+    max-width: 100%;
+    max-height: 100vh;
+}
+
 @media (max-width: 768px) {
     .counters-section {
         flex-direction: column;
     }
-
+    
     .in-news-container {
         flex-direction: column;
     }
@@ -186,7 +230,14 @@ body {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 800px) {
+    :root {
+        --photo-carousel-height: calc(100% * 3 / 4);
+    }
+} 
+
+
+@media (max-width: 600px) {
     .intro-section {
         flex-direction: column;
     }
@@ -195,5 +246,20 @@ body {
     }
     .get-involved-button {
         width: 85%;
+    }
+    .faq-sect-div {
+        width: 100%;
+    }
+}
+
+@media (min-width:800px) {
+    html {
+        font-size: 14pt
+    }
+}
+
+@media (min-width: 1200px) {
+    html {
+        font-size: 20pt;
     }
 }
