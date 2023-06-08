@@ -1,4 +1,4 @@
-![KaylaCares4Kids](./assets/kayla-cares-4-kids-logo.png)
+![KaylaCares4Kids](./public/kayla-cares-4-kids-logo.png)
 # Kayla Cares 4 Kids
 ## Operations Front-End
 Kayla Cares 4 Kids, Inc. is a 501(c)(3) non-profit organization. Kayla Cares 4 Kids’ mission is to help sick kids feel better by providing entertainment and educational items to children’s hospitals, Ronald McDonald Houses and related pediatric facilities worldwide.
