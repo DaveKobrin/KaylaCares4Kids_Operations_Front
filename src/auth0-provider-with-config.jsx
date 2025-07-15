@@ -19,7 +19,7 @@ export const Auth0ProviderWithConfig = ({ children }) => {
     // console.error({clientId});
     // console.error({redirectUri});
     // console.error({audience});
-    return null;
+    return (<h2>ERROR: Bad Environment</h2>);
   }
 
   return (
