@@ -12,9 +12,9 @@ export const UserContext = React.createContext();
 export const DataContext = React.createContext();
 
 function App() {
-  const BACK_URI = process.env.REACT_APP_SERVER_URL;
-  const LOGOUT_URL = process.env.REACT_APP_AUTH0_LOGOUT_URL;
-  const AUDIENCE = process.env.REACT_APP_AUTH0_AUDIENCE;
+  const BACK_URI = import.meta.env.VITE_SERVER_URL;
+  const LOGOUT_URL = import.meta.env.VITE_AUTH0_LOGOUT_URL;
+  const AUDIENCE = import.meta.env.VITE_AUTH0_AUDIENCE;
   
   const [currUser, setCurrUser] = useState({});
 
