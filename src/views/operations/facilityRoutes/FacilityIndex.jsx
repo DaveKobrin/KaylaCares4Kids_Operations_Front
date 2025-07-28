@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { DataContext, ConstContext } from "../../../App";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 
 const FacilityIndex = () => {

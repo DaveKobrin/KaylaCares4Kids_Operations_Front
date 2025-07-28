@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ConstContext, DataContext } from "../../../App";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { Container, Form, FormGroup, Label, Input, Row, Button, Col } from 'reactstrap';
 import { countries, states } from "../../../constants";
 

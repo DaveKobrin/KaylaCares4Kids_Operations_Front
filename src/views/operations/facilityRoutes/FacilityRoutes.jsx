@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router";
 import { FacilityIndex, FacilityNew, FacilityShow, FacilityEdit, NotFound } from '../..';
 import { DataContext, UserContext, ConstContext } from '../../../App';
 import { useState, useContext, useEffect } from 'react';

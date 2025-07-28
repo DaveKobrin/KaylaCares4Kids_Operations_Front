@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ConstContext, UserContext } from "../../../App";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useAuth0} from '@auth0/auth0-react'
 
