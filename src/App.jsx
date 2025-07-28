@@ -38,17 +38,28 @@ function App() {
             </Route>
             <Route path='operations/' element={<OpsSharedLayout />} >
               <Route index element={<OpsLanding />} />
-              <Route path='users/*' element={<UserRoutes />} />
-              <Route path='items/*' element={<ItemRoutes />} />
-              <Route path='lookups/*' element={<LookupRoutes />} />
-              <Route path='facilities/*' element={<FacilityRoutes />} />
-              <Route path='destinations/*' element={<DestinationRoutes />} />
+              <Route path='users'>
+                <Route path='*' element={<UserRoutes />} />
+              </Route>
+              <Route path='items'>
+                <Route path='*' element={<ItemRoutes />} />
+              </Route>
+              <Route path='lookups'>
+                <Route path='*' element={<LookupRoutes />} />
+              </Route>
+              <Route path='facilities'>
+                <Route path='*' element={<FacilityRoutes />} />
+              </Route>
+              <Route path='destinations'>
+                <Route path='*' element={<DestinationRoutes />} />
+              </Route>
               <Route path='callback' element={<CallbackView />} />
               <Route path='test/public' element={<TestAPIRoute />} />
               <Route path='test/protected' element={<Auth0LoginRequired component={TestAPIprotected} />} />
               <Route path='test/admin' element={<TestAPIAdmin />} />
               <Route path='*' element={<NotFound />} />
             </Route>
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </UserContext.Provider>
       </ConstContext.Provider>
