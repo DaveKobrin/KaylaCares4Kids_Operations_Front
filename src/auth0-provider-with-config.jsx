@@ -26,10 +26,10 @@ export const Auth0ProviderWithConfig = ({ children }) => {
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      redirectUri={redirectUri}
-      audience={audience}
-      // onRedirectCallback={onRedirectCallback}
-    >
+      authorizationParams={{
+        redirect_uri: `${redirectUri}`,
+        audience: `${audience}`
+      }}>
       {children}
     </Auth0Provider>
   );
