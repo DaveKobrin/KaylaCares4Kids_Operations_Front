@@ -27,7 +27,7 @@ export const Auth0ProviderWithConfig = ({ children }) => {
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        redirect_uri: window.location.origin,//`${redirectUri}`,
+        redirect_uri: `${redirectUri}`,
         audience: `${audience}`
       }}>
       {children}
